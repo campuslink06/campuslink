@@ -1,0 +1,2320 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusSeller Marketplace</title>
+  <style>
+    :root{--bg:#f4f7fb;--card:#fff;--line:#dbe4f0;--text:#0f172a;--muted:#64748b;--primary:#4f46e5;--dark:#0f172a;--success:#16a34a;--danger:#dc2626}
+    *{box-sizing:border-box}body{margin:0;font-family:"Segoe UI",Tahoma,sans-serif;color:var(--text);background:radial-gradient(circle at top left,rgba(79,70,229,.12),transparent 28%),var(--bg)}
+    button,input,select{font:inherit}button{cursor:pointer}main{min-height:55vh}.wrap{width:min(1100px,calc(100% - 24px));margin:0 auto}
+    .hidden{display:none!important}.panel,.card{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 16px 34px rgba(15,23,42,.06)}
+    .notice{background:linear-gradient(135deg,#4338ca,#4f46e5 60%,#0f172a);color:#fff}.notice .wrap{position:relative;display:flex;justify-content:center;gap:12px;padding:12px 42px 12px 12px;text-align:center;font-weight:600}
+    .notice button{position:absolute;right:0;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:999px;background:rgba(255,255,255,.14);color:#fff}
+    .pill{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.14);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+    .nav{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0}.brand{display:flex;align-items:center;gap:12px;border:0;background:transparent;padding:0;color:inherit}
+    .logo{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--primary),#312e81);color:#fff;box-shadow:0 10px 20px rgba(79,70,229,.22);font-size:.82rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .brand strong{display:block;font-size:1.15rem}.brand span{display:block;color:var(--muted);font-size:.64rem;text-transform:uppercase;letter-spacing:.16em;font-weight:700}.accent{color:var(--primary)}
+    .badge{padding:7px 12px;border-radius:999px;background:#fef3c7;color:#92400e;border:1px solid #fcd34d;font-size:.8rem;font-weight:700}
+    .search{flex:1 1 260px;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:999px;background:#f8fafc;border:1px solid var(--line)}.search span{color:var(--muted);font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.search input{width:100%;border:0;background:transparent;outline:none}
+    .actions{display:flex;gap:10px;margin-left:auto;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text);font-weight:700}
+    .btn.primary{background:var(--primary);border-color:transparent;color:#fff;box-shadow:0 12px 24px rgba(79,70,229,.18)}.btn.dark{background:var(--dark);border-color:transparent;color:#fff}.btn.warn{background:#fff7ed;color:#9a3412;border-color:#fed7aa}.btn.danger{background:#fef2f2;color:var(--danger);border-color:#fecaca}
+    .main{padding:24px 0 48px}.stack{display:grid;gap:24px;min-width:0}.hero{padding:32px;border-radius:28px;background:linear-gradient(145deg,#312e81,#4338ca 55%,#0f172a);color:#fff;box-shadow:0 24px 60px rgba(15,23,42,.08)}
+    .hero .eyebrow{display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+    .hero h1{margin:14px 0 12px;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1;letter-spacing:-.04em}.hero p{margin:0 0 22px;max-width:42rem;color:#e0e7ff;line-height:1.65}
+    .hero-actions,.row,.section-head,.view-head,.receipt-sum,.item,.item .left,.summary,.actions2{display:flex;align-items:center;gap:12px}.hero-actions,.actions2{flex-wrap:wrap}.item .actions2{justify-content:flex-end}.section-head{justify-content:space-between;margin:4px 0 0}.section-head h2,.view-head h2{margin:0;font-size:1.8rem;letter-spacing:-.03em}
+    .headline{display:flex;align-items:center;gap:12px}.headline:before{content:"";width:6px;height:30px;border-radius:999px;background:var(--primary)}.linkbtn{border:0;background:transparent;padding:0;color:var(--primary);font-weight:700}
+    .grid{display:grid;gap:16px}.branches{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}.notes{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+    .branch{padding:20px;text-align:center}.branch .icon{width:64px;height:64px;margin:0 auto 12px;display:grid;place-items:center;border-radius:18px;font-size:1rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .cse{background:#dbeafe;color:#2563eb}.mech{background:#ffedd5;color:#ea580c}.elec{background:#fef3c7;color:#d97706}.civil{background:#dcfce7;color:#16a34a}.ece{background:#f3e8ff;color:#9333ea}
+    .branch strong{font-size:1rem}.note-top{position:relative;height:140px;display:flex;align-items:center;justify-content:center;background:#f8fafc;border-bottom:1px solid var(--line);font-size:.92rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#475569}
+    .tag{position:absolute;top:12px;right:12px;padding:5px 9px;border-radius:999px;background:rgba(255,255,255,.95);border:1px solid var(--line);font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+    .note-body{padding:18px}.meta{display:flex;justify-content:space-between;gap:12px;font-size:.82rem;color:var(--muted)}.meta .star{color:#d97706;font-weight:700}.title{margin:8px 0 6px;font-size:1.05rem}.sub{color:var(--muted);font-size:.92rem;line-height:1.5}
+    .price{font-size:1.2rem;font-weight:800;letter-spacing:-.03em}.view{display:grid;gap:20px;min-width:0}.view-head{align-items:flex-start}.back{min-width:44px;height:44px;padding:0 16px;border-radius:999px}.empty{padding:52px 24px;text-align:center;border:2px dashed var(--line);border-radius:24px;background:#fcfdff;color:var(--muted)}
+    .empty strong{display:block;color:var(--text);font-size:1.2rem;margin-bottom:8px}.info{padding:16px 18px;border-radius:18px;background:linear-gradient(135deg,rgba(79,70,229,.08),rgba(15,23,42,.03));border:1px solid rgba(79,70,229,.12)}
+    .admin{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:16px;align-items:start}.admin>*{min-width:0}.form{padding:24px;display:grid;gap:14px;position:sticky;top:96px}.form h3,.checkout h3,.receipt h3{margin:0 0 4px}
+    .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px}.field label{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+    .field input,.field select,.field textarea{padding:12px 14px;border-radius:14px;border:1px solid var(--line);background:#f8fafc;outline:none}.field input[type=file]{padding:10px;background:#fff}.field textarea{min-height:120px;resize:vertical}.list{display:grid;gap:12px}
+    .item{justify-content:space-between;padding:16px 18px;align-items:flex-start}.item .left{min-width:0;flex:1 1 auto}.ibox{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:#f8fafc;font-size:.82rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.iconbtn{width:42px;height:42px;padding:0}
+    .checkout{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}.pad{padding:24px}.bill{display:grid;gap:16px}.summary{padding:16px;border-radius:18px;background:#f8fafc;border:1px solid var(--line)}
+    .sumglyph{display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--primary),#312e81);color:#fff;font-size:.8rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.totals{display:grid;gap:10px}.totals .line{display:flex;justify-content:space-between;gap:12px;color:#334155}.totals .line.total{padding-top:12px;border-top:1px solid var(--line);font-size:1.15rem;font-weight:800;color:var(--text)}
+    .safe{padding:14px 16px;border-radius:16px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;line-height:1.55}.qrside{display:grid;place-items:center;background:#f8fafc}.qrwrap{width:min(100%,320px);display:grid;gap:16px;text-align:center}
+    .qrbox{width:min(100%,280px);aspect-ratio:1;margin:0 auto;border-radius:20px;border:1px solid var(--line);background:radial-gradient(circle at 18% 18%,#111 0 14%,transparent 15%),radial-gradient(circle at 82% 18%,#111 0 14%,transparent 15%),radial-gradient(circle at 18% 82%,#111 0 14%,transparent 15%),linear-gradient(90deg,#111 12%,transparent 12% 24%,#111 24% 36%,transparent 36% 48%,#111 48% 60%,transparent 60%),linear-gradient(#111 12%,transparent 12% 24%,#111 24% 36%,transparent 36% 48%,#111 48% 60%,transparent 60%),#fff;background-size:20% 20%,20% 20%,20% 20%,20% 20%,20% 20%,auto;position:relative;overflow:hidden}
+    .qrbox:after{content:"";position:absolute;left:0;top:0;width:100%;height:12px;background:linear-gradient(90deg,transparent,rgba(79,70,229,.28),transparent);animation:scan 3s ease-in-out infinite}
+    .receipt-top{position:relative;padding:28px;background:linear-gradient(135deg,var(--primary),#312e81);color:#fff;text-align:center}.receipt-top .okmark{width:68px;height:68px;margin:0 auto;display:grid;place-items:center;border-radius:999px;background:rgba(255,255,255,.16);font-size:.86rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .print{position:absolute;top:14px;right:14px;min-width:44px;height:44px;padding:0 14px;border-radius:999px;border:0;background:rgba(255,255,255,.16);color:#fff;font-weight:700}.receipt-body{padding:24px;display:grid;gap:18px}.mono{font-family:Consolas,"Courier New",monospace}
+    .amount{font-size:clamp(2rem,5vw,2.8rem);font-weight:900;letter-spacing:-.05em}.box{padding:16px;border-radius:18px;background:#f8fafc;border:1px solid var(--line)}.ok{padding:18px;border-radius:18px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;line-height:1.6}
+    .verify-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.status-pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+    .status-pill.pending{background:#fef3c7;color:#92400e}.status-pill.approved{background:#dcfce7;color:#166534}.status-pill.rejected{background:#fee2e2;color:#991b1b}.helper{color:var(--muted);font-size:.86rem;line-height:1.6}
+    .request-copy{display:grid;gap:4px;min-width:0}.small-note{font-size:.78rem;color:var(--muted);line-height:1.55}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat-card{padding:18px 20px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(180deg,#fff,#f8fbff);min-width:0}
+    .stat-label{display:block;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}.stat-value{display:block;margin-top:10px;font-size:1.9rem;font-weight:900;letter-spacing:-.04em}
+    .item-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.mini-badge{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#f8fafc;border:1px solid var(--line);font-size:.74rem;color:#334155;font-weight:700}
+    .list-panel{padding:22px;min-width:0}.list-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}.list-head h3{margin:0 0 6px}
+    .developer-admin{grid-template-columns:minmax(320px,380px) minmax(0,1fr);gap:18px}.developer-form{align-self:start;z-index:1;overflow:hidden}.developer-content{min-width:0}.developer-content>*{min-width:0}
+    .developer-content .stats{grid-template-columns:repeat(3,minmax(0,1fr))}.developer-content .list{min-width:0}.developer-content .item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px}
+    .developer-content .item .left{display:grid;grid-template-columns:48px minmax(0,1fr);align-items:flex-start}.developer-content .item .request-copy strong,.developer-content .item .sub,.developer-content .item .small-note{overflow-wrap:anywhere}
+    .developer-content .item .actions2{align-self:start;justify-content:flex-end;flex-shrink:0}.developer-content .mini-badge{max-width:100%;overflow-wrap:anywhere}
+    .footer{margin-top:32px;padding:42px 0;background:#0f172a;color:#fff;text-align:center}.footer p{max-width:540px;margin:0 auto 18px;color:#94a3b8;line-height:1.6}.metafoot{padding-top:18px;border-top:1px solid rgba(148,163,184,.18);color:#64748b;font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;font-weight:700}
+    @keyframes scan{0%,100%{transform:translateY(0)}50%{transform:translateY(268px)}}
+    @media (max-width:1240px){.developer-admin,.admin,.checkout{grid-template-columns:1fr}.form,.developer-form{position:static}.developer-content .stats{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}}
+    @media (max-width:900px){.search{order:3;flex-basis:100%}.actions{margin-left:0;width:100%}.actions .btn{flex:1 1 180px}.verify-grid{grid-template-columns:1fr}.hero{padding:24px}.pad,.list-panel,.form{padding:20px}.developer-content .item{grid-template-columns:1fr}.developer-content .item .actions2{justify-content:flex-start}}
+    @media (max-width:680px){.actions,.hero-actions,.actions2,.formgrid,.receipt-sum,.stats{display:grid;grid-template-columns:1fr}.btn{width:100%}.item,.row,.view-head,.list-head{flex-direction:column;align-items:stretch}.branch .icon{width:56px;height:56px;font-size:.9rem}.pad,.list-panel,.form,.hero{padding:18px}.developer-content .item .left{grid-template-columns:1fr}.developer-content .item .actions2{width:100%}}
+    @media print{body{background:#fff}.notice,.nav,.footer,.screen{display:none!important}.main{padding:0}.panel,.card{box-shadow:none}}
+  </style>
+</head>
+<body>
+  <div id="notice" class="notice">
+    <div class="wrap">
+      <span class="pill">New</span>
+      <span>CampusSeller by CampusLink is live. Use code <strong>LINK20</strong> for the semester launch discount.</span>
+      <button id="closeNotice" type="button" aria-label="Close notice">x</button>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="wrap">
+      <button id="homeBtn" class="brand" type="button">
+        <span class="logo">CL</span>
+        <span>
+          <strong>Campus<span class="accent">Seller</span></strong>
+          <span>by CampusLink</span>
+        </span>
+      </button>
+      <span id="sellerBadge" class="badge hidden">Developer Mode</span>
+      <label class="search" aria-label="Search resources">
+        <span>Search</span>
+        <input id="searchInput" type="search" placeholder="Search resources...">
+      </label>
+      <div class="actions">
+        <button id="authBtn" class="btn" type="button"></button>
+        <button id="auxBtn" class="btn dark" type="button"></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap main" id="main"></main>
+
+  <script>
+    window.FIREBASE_CONFIG = {
+      apiKey: "AIzaSyC4ouJ62PSetumpbyjtS4vj3kTmdBcTVf4",
+      authDomain: "campuslink-286e2.firebaseapp.com",
+      databaseURL: "https://campuslink-286e2-default-rtdb.firebaseio.com",
+      projectId: "campuslink-286e2",
+      appId: "1:799121588178:web:a92aad846ae71460ea920b",
+      storageBucket: "campuslink-286e2.firebasestorage.app",
+      messagingSenderId: "799121588178",
+      measurementId: "G-TNV654EVDP"
+    };
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getAnalytics, isSupported as analyticsSupported } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-analytics.js";
+    import { getDatabase, ref as databaseRef, get, set, onValue } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadString, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-storage.js";
+
+    const storeApi = window.firebaseStoreApi = {
+      enabled: false,
+      error: null,
+      ready: Promise.resolve(false),
+      async loadStore() {
+        return null;
+      },
+      async saveStore() {
+        return false;
+      },
+      async uploadFile(note) {
+        return note;
+      },
+      async deleteFile() {
+        return false;
+      },
+      watchStore() {
+        return () => {};
+      }
+    };
+
+    const config = window.FIREBASE_CONFIG || {};
+    const requiredKeys = ["apiKey", "authDomain", "projectId", "appId", "storageBucket", "databaseURL"];
+    if (requiredKeys.some((key) => !config[key])) {
+      storeApi.error = "Missing Firebase config.";
+    } else {
+      storeApi.ready = (async () => {
+        try {
+          const firebaseApp = initializeApp(config);
+          analyticsSupported()
+            .then((supported) => {
+              if (supported) {
+                window.firebaseAnalytics = getAnalytics(firebaseApp);
+              }
+            })
+            .catch(() => {
+              // Ignore analytics issues; core database and storage should still work.
+            });
+          const db = getDatabase(firebaseApp);
+          const storage = getStorage(firebaseApp);
+          const storeRef = databaseRef(db, "campusSeller/websiteState");
+
+          storeApi.enabled = true;
+          storeApi.loadStore = async () => {
+            const snapshot = await get(storeRef);
+            return snapshot.exists() ? snapshot.val() : null;
+          };
+          storeApi.watchStore = (onUpdate, onError) => onValue(
+            storeRef,
+            (snapshot) => onUpdate(snapshot.exists() ? snapshot.val() : null),
+            (error) => {
+              storeApi.error = error instanceof Error ? error.message : String(error);
+              if (typeof onError === "function") {
+                onError(error);
+              }
+            }
+          );
+          storeApi.uploadFile = async (note) => {
+            if (!note || !note.uploadDataUrl) {
+              return {
+                ...note,
+                uploadDataUrl: "",
+                uploadUrl: note && note.uploadUrl ? note.uploadUrl : "",
+                storagePath: note && note.storagePath ? note.storagePath : ""
+              };
+            }
+
+            const safeName = String(note.uploadName || `${note.title || "resource"}.pdf`).replace(/[^\w.\-]+/g, "-");
+            const filePath = note.storagePath || `resources/${note.id || Date.now()}-${safeName}`;
+            const fileRef = storageRef(storage, filePath);
+            await uploadString(fileRef, note.uploadDataUrl, "data_url");
+            const uploadUrl = await getDownloadURL(fileRef);
+
+            return {
+              ...note,
+              uploadDataUrl: "",
+              uploadUrl,
+              storagePath: filePath
+            };
+          };
+          storeApi.deleteFile = async (filePath) => {
+            if (!filePath) {
+              return false;
+            }
+
+            await deleteObject(storageRef(storage, filePath));
+            return true;
+          };
+          storeApi.saveStore = async (payload) => {
+            const allNotes = await Promise.all((payload.allNotes || []).map(async (note) => {
+              if (note.uploadDataUrl && (!note.storagePath || !note.uploadUrl)) {
+                return storeApi.uploadFile(note);
+              }
+
+              return {
+                ...note,
+                uploadDataUrl: "",
+                uploadUrl: note.uploadUrl || "",
+                storagePath: note.storagePath || ""
+              };
+            }));
+
+            const cleanPayload = {
+              ...payload,
+              allNotes,
+              updatedAt: Date.now()
+            };
+
+            await set(storeRef, cleanPayload);
+            return cleanPayload;
+          };
+
+          return true;
+        } catch (error) {
+          storeApi.enabled = false;
+          storeApi.error = error instanceof Error ? error.message : String(error);
+          return false;
+        }
+      })();
+    }
+  </script>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="brand" style="justify-content:center;margin-bottom:14px">
+        <span class="logo">CL</span>
+        <span>
+          <strong>CampusSeller</strong>
+          <span>by CampusLink</span>
+        </span>
+      </div>
+      <p>The exclusive platform for premium engineering study materials and campus resources, powered by CampusLink.</p>
+      <div class="metafoot">&copy; <span id="year"></span> CampusSeller by CampusLink | support@campuslink.com</div>
+    </div>
+  </footer>
+
+  <script type="text/plain" id="legacy-app-script">
+    const BRANCHES=[
+      {id:"cse",name:"Computer Science",icon:"ðŸ’»"},
+      {id:"mech",name:"Mechanical",icon:"âš™ï¸"},
+      {id:"elec",name:"Electrical",icon:"âš¡"},
+      {id:"civil",name:"Civil",icon:"ðŸ—ï¸"},
+      {id:"ece",name:"Electronics",icon:"ðŸ“Ÿ"}
+    ];
+    const INITIAL_NOTES=[
+      {id:1,branch:"cse",title:"Data Structures & Algorithms",price:199,rating:4.8,pages:120,format:"PDF",author:"Dr. Smith"},
+      {id:2,branch:"cse",title:"Operating Systems Pro",price:149,rating:4.5,pages:85,format:"E-Book",author:"Prof. J. Doe"},
+      {id:3,branch:"mech",title:"Thermodynamics Masterclass",price:299,rating:4.9,pages:200,format:"PDF",author:"Engr. Robert"}
+    ];
+    const blank=()=>({title:"",branch:"cse",price:"",author:"",pages:"",format:"PDF"});
+    const state={view:"home",isAdmin:false,showNotice:true,allNotes:INITIAL_NOTES.map(n=>({...n})),selectedBranch:null,selectedItem:null,search:"",receipt:null,newNote:blank()};
+    const els={notice:document.getElementById("notice"),sellerBadge:document.getElementById("sellerBadge"),searchInput:document.getElementById("searchInput"),authBtn:document.getElementById("authBtn"),auxBtn:document.getElementById("auxBtn"),main:document.getElementById("main")};
+    document.getElementById("year").textContent=new Date().getFullYear();
+
+    const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+    const money=v=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:0}).format(Number(v)||0);
+    const branch=id=>BRANCHES.find(b=>b.id===id)||null;
+    const selected=()=>state.allNotes.find(n=>n.id===state.selectedItem)||null;
+    const tx=()=>"TXN"+Math.random().toString(36).slice(2,11).toUpperCase();
+    function reset(){state.view="home";state.selectedBranch=null;state.selectedItem=null;state.receipt=null}
+    function filtered(){let notes=state.allNotes.slice();if(state.selectedBranch) notes=notes.filter(n=>n.branch===state.selectedBranch);const q=state.search.trim().toLowerCase();if(q) notes=notes.filter(n=>[n.title,n.author,n.format].join(" ").toLowerCase().includes(q));return notes}
+    function noteCard(note){const b=branch(note.branch);return `<div class="card"><div class="note-top">ðŸ“„<span class="tag">${esc(note.format)}</span></div><div class="note-body"><div class="meta"><span class="star">â˜… ${Number(note.rating||5).toFixed(1)}</span><span>${esc(b?b.name:note.branch)}</span></div><h3 class="title">${esc(note.title)}</h3><div class="sub">By ${esc(note.author)} â€¢ ${note.pages} pages</div><div class="row" style="justify-content:space-between;margin-top:14px"><span class="price">${money(note.price)}</span><button class="btn primary" data-action="buy" data-id="${note.id}" type="button">Buy</button></div></div></div>`}
+    function branchCard(b){return `<button class="card branch" data-action="branch" data-id="${b.id}" type="button"><div class="icon ${b.id}">${b.icon}</div><strong>${esc(b.name)}</strong></button>`}
+    function stockRow(note){const b=branch(note.branch);return `<div class="panel item"><div class="left"><div class="ibox">ðŸ“„</div><div><strong>${esc(note.title)}</strong><div class="sub">${esc(note.author)} â€¢ ${esc(b?b.name:note.branch)} â€¢ ${money(note.price)}</div></div></div><div class="actions2"><button class="btn iconbtn" data-action="preview" data-id="${note.id}" type="button">ðŸ‘ï¸</button><button class="btn danger iconbtn" data-action="delete" data-id="${note.id}" type="button">ðŸ—‘ï¸</button></div></div>`}
+    function renderShell(){els.notice.classList.toggle("hidden",!state.showNotice);els.sellerBadge.classList.toggle("hidden",!state.isAdmin);els.authBtn.className=`btn ${state.isAdmin?"warn":""}`.trim();els.authBtn.textContent=state.isAdmin?"ðŸšª Logout":"ðŸ”’ Seller Login";els.auxBtn.textContent=state.isAdmin?"âž• Add Item":"ðŸ›’ Cart";if(document.activeElement!==els.searchInput) els.searchInput.value=state.search}
+    function homeView(){return `<div class="stack"><section class="hero"><div class="eyebrow">âœ¨ Powered by CampusLink</div><h1>CampusSeller Marketplace</h1><p>The official platform for premium engineering study materials, curated by CampusLink. Browse verified topper resources, buy instantly, and manage listings from one clean storefront.</p><div class="hero-actions"><button class="btn primary" data-action="all" type="button">Browse All Resources</button><span>ðŸ›¡ï¸ Verified by CampusLink</span></div></section><section class="stack"><div class="section-head"><div class="headline"><h2>Select Your Branch</h2></div></div><div class="grid branches">${BRANCHES.map(branchCard).join("")}</div></section><section class="stack"><div class="section-head"><div class="headline"><h2>Trending Now</h2></div><button class="linkbtn" data-action="all" type="button">View All â†’</button></div><div class="grid notes">${state.allNotes.slice(0,4).map(noteCard).join("")}</div></section></div>`}
+    function branchView(){const b=branch(state.selectedBranch),list=filtered();return `<div class="view"><div class="view-head"><button class="btn back" data-action="home" type="button">â†</button><div><h2>${esc(b?b.name+" Engineering":"All Engineering Resources")}</h2><div class="sub">${esc(b?"Official resources curated through CampusLink.":"Browse every available listing across departments.")}</div></div></div>${list.length?`<div class="grid notes">${list.map(noteCard).join("")}</div>`:`<div class="empty"><strong>No notes found</strong><span>Try another search term or check back after more items are added.</span></div>`}</div>`}
+    function adminView(){return `<div class="view"><div class="view-head"><button class="btn back" data-action="home" type="button">â†</button><div><h2>Seller Dashboard</h2><div class="sub">Manage listings, add fresh resources, and keep inventory updated.</div></div></div><div class="admin"><form class="panel form" data-form="note"><h3>âž• List New Resource</h3><div class="field"><label>Title</label><input name="title" value="${esc(state.newNote.title)}" placeholder="e.g. Engineering Mathematics" required></div><div class="formgrid"><div class="field"><label>Branch</label><select name="branch">${BRANCHES.map(b=>`<option value="${b.id}" ${state.newNote.branch===b.id?"selected":""}>${esc(b.name)}</option>`).join("")}</select></div><div class="field"><label>Price (â‚¹)</label><input name="price" type="number" min="1" value="${esc(state.newNote.price)}" required></div></div><div class="field"><label>Author</label><input name="author" value="${esc(state.newNote.author)}" required></div><div class="formgrid"><div class="field"><label>Pages</label><input name="pages" type="number" min="1" value="${esc(state.newNote.pages)}" required></div><div class="field"><label>Format</label><select name="format"><option ${state.newNote.format==="PDF"?"selected":""}>PDF</option><option ${state.newNote.format==="E-Book"?"selected":""}>E-Book</option><option ${state.newNote.format==="Handwritten"?"selected":""}>Handwritten</option></select></div></div><button class="btn primary" type="submit">Add to Store</button></form><div class="stack"><div class="info">Seller inventory currently has <strong>${state.allNotes.length}</strong> active resource${state.allNotes.length===1?"":"s"}.</div><div class="list">${state.allNotes.map(stockRow).join("")}</div></div></div></div>`}
+    function checkoutView(){const item=selected();if(!item) return `<div class="empty"><strong>No item selected</strong><span>Choose a note from the marketplace before opening checkout.</span></div>`;return `<div class="panel checkout"><div class="pad"><div class="bill"><div><h3>Order Summary</h3><div class="summary"><div class="sumglyph">ðŸ“„</div><div><strong>${esc(item.title)}</strong><div class="sub">${esc(item.author)} â€¢ ${item.pages} pages â€¢ ${esc(item.format)}</div></div></div></div><div class="totals"><div class="line"><span>Base Price</span><span>${money(item.price)}</span></div><div class="line"><span>Processing Fee</span><span style="color:var(--success);font-weight:700">FREE</span></div><div class="line total"><span>Total Amount</span><span>${money(item.price)}</span></div></div><div class="safe"><strong>ðŸ›¡ï¸ Secure Payment</strong><br>Payment is validated through the CampusLink checkout flow in this demo.</div></div></div><div class="pad qrside"><div class="qrwrap"><div><h3>Scan to Pay</h3><div class="sub">Pay directly to CampusLink sellers and confirm once done.</div></div><div class="qrbox" aria-hidden="true"></div><div class="actions2 screen"><button class="btn dark" data-action="pay" type="button">I've Completed the Payment</button><button class="btn" data-action="cancel" type="button">Cancel Transaction</button></div></div></div></div>`}
+    function receiptView(){const r=state.receipt;if(!r) return `<div class="empty"><strong>No receipt available</strong><span>Complete a checkout to generate a payment confirmation receipt.</span></div>`;return `<div class="panel receipt"><div class="receipt-top"><button class="print screen" data-action="print" type="button">ðŸ–¨ï¸</button><div class="okmark">âœ…</div><h2 style="margin:12px 0 6px">Payment Successful!</h2><div>Verified by CampusLink</div></div><div class="receipt-body"><div class="receipt-sum"><div><h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Transaction ID</h3><div class="mono">${esc(r.transactionId)}</div><div class="sub" style="margin-top:6px">${esc(r.date)}</div></div><div style="text-align:right"><h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Amount Paid</h3><div class="amount">${money(r.price)}</div></div></div><div class="box"><h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Resource Details</h3><strong>${esc(r.title)}</strong><div class="sub">${esc(r.format)} â€¢ ${r.pages} pages â€¢ ${esc(r.author)}</div></div><div class="ok"><strong>â¬‡ï¸ Ready for Download</strong><br>This standalone demo confirms the payment flow, but it does not yet generate a real file delivery backend.</div><div class="actions2 screen"><button class="btn primary" data-action="download" type="button">Download File</button><button class="btn" data-action="reset" type="button">Return to Store</button></div></div></div>`}
+    function renderMain(){if(state.view==="admin"&&!state.isAdmin) state.view="home";els.main.innerHTML=state.view==="branch"?branchView():state.view==="admin"?adminView():state.view==="checkout"?checkoutView():state.view==="receipt"?receiptView():homeView()}
+    function render(){renderShell();renderMain()}
+
+    document.getElementById("closeNotice").addEventListener("click",()=>{state.showNotice=false;renderShell()});
+    document.getElementById("homeBtn").addEventListener("click",()=>{reset();render()});
+    els.searchInput.addEventListener("input",e=>{state.search=e.target.value;if(state.search.trim()&&state.view==="home"){state.view="branch";state.selectedBranch=null}renderMain()});
+    els.authBtn.addEventListener("click",()=>{if(!state.isAdmin){const pass=window.prompt("Enter Seller Password:");if(pass===null) return;if(pass!=="admin123"){window.alert("Incorrect password.");return}state.isAdmin=true;state.view="admin";render();return}state.isAdmin=false;reset();render()});
+    els.auxBtn.addEventListener("click",()=>{if(state.isAdmin){state.view="admin";renderMain();return}window.alert("Cart is a placeholder in this standalone demo.")});
+    els.main.addEventListener("click",e=>{const btn=e.target.closest("[data-action]");if(!btn) return;const action=btn.dataset.action;if(action==="branch"){state.selectedBranch=btn.dataset.id;state.view="branch";renderMain();return}if(action==="all"){state.selectedBranch=null;state.view="branch";renderMain();return}if(action==="home"){state.view="home";renderMain();return}if(action==="buy"||action==="preview"){state.selectedItem=Number(btn.dataset.id);state.view="checkout";renderMain();return}if(action==="delete"){const id=Number(btn.dataset.id),note=state.allNotes.find(n=>n.id===id);if(!note) return;if(!window.confirm(`Delete "${note.title}" from the store?`)) return;state.allNotes=state.allNotes.filter(n=>n.id!==id);if(state.selectedItem===id) state.selectedItem=null;renderMain();return}if(action==="pay"){const item=selected();if(!item){window.alert("Select a resource before confirming payment.");return}state.receipt={...item,transactionId:tx(),date:new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"})};state.view="receipt";renderMain();return}if(action==="cancel"){state.view=state.selectedBranch?"branch":"home";renderMain();return}if(action==="print"){window.print();return}if(action==="download"){window.alert("Download is not wired to a real file backend in this standalone demo.");return}if(action==="reset"){reset();render()}});
+    els.main.addEventListener("input",e=>{const form=e.target.closest("form[data-form='note']");if(!form||!e.target.name) return;state.newNote[e.target.name]=e.target.value});
+    els.main.addEventListener("submit",e=>{const form=e.target.closest("form[data-form='note']");if(!form) return;e.preventDefault();const title=state.newNote.title.trim(),author=state.newNote.author.trim(),price=Number(state.newNote.price),pages=Number(state.newNote.pages);if(!title||!author||!price||!pages){window.alert("Please complete all listing fields.");return}state.allNotes=[{id:Date.now(),branch:state.newNote.branch,title,price,rating:5,pages,format:state.newNote.format,author},...state.allNotes];state.newNote=blank();renderMain()});
+    render();
+  </script>
+  <script>
+    const app = window.app = {};
+
+    app.STORAGE_KEY = "campus-seller-private-access-v2";
+    app.OWNER_ACCESS_KEY = "chhapi@1234";
+    app.DEVELOPER_STORE_NAME = "Developer Private Store";
+    app.MAX_UPLOAD_SIZE_BYTES = 10 * 1024 * 1024;
+
+    app.BRANCHES = [
+      { id: "cse", name: "Computer Science", icon: "ðŸ’»" },
+      { id: "mech", name: "Mechanical", icon: "âš™ï¸" },
+      { id: "elec", name: "Electrical", icon: "âš¡" },
+      { id: "civil", name: "Civil", icon: "ðŸ—ï¸" },
+      { id: "ece", name: "Electronics", icon: "ðŸ“Ÿ" }
+    ];
+
+    app.INITIAL_NOTES = [
+      { id: 1, branch: "cse", title: "Data Structures & Algorithms", price: 199, rating: 4.8, pages: 120, format: "PDF", author: "Dr. Smith", sellerId: "owner", sellerName: "Developer Private Store" },
+      { id: 2, branch: "cse", title: "Operating Systems Pro", price: 149, rating: 4.5, pages: 85, format: "E-Book", author: "Prof. J. Doe", sellerId: "owner", sellerName: "Developer Private Store" },
+      { id: 3, branch: "mech", title: "Thermodynamics Masterclass", price: 299, rating: 4.9, pages: 200, format: "PDF", author: "Engr. Robert", sellerId: "owner", sellerName: "Developer Private Store" }
+    ];
+
+    app.blankNote = () => ({ title: "", branch: "cse", author: "", format: "PDF", price: "", uploadName: "", uploadDataUrl: "", uploadUrl: "", uploadSize: 0, storagePath: "" });
+    app.blankVerify = () => ({ name: "", email: "", branch: "cse", sellerCode: "", inviteCode: "", reason: "" });
+    app.blankSellerLogin = () => ({ email: "", sellerCode: "" });
+
+    app.els = {
+      notice: document.getElementById("notice"),
+      sellerBadge: document.getElementById("sellerBadge"),
+      searchInput: document.getElementById("searchInput"),
+      authBtn: document.getElementById("authBtn"),
+      auxBtn: document.getElementById("auxBtn"),
+      main: document.getElementById("main")
+    };
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    app.esc = (value) => String(value).replace(/[&<>"']/g, (match) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      "\"": "&quot;",
+      "'": "&#39;"
+    }[match]));
+
+    app.money = (value) => new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
+      maximumFractionDigits: 0
+    }).format(Number(value) || 0);
+
+    app.formatBytes = (bytes) => {
+      const value = Number(bytes) || 0;
+      if (!value) {
+        return "0 KB";
+      }
+      if (value >= 1024 * 1024) {
+        return `${(value / (1024 * 1024)).toFixed(1)} MB`;
+      }
+      return `${Math.max(1, Math.round(value / 1024))} KB`;
+    };
+
+    app.stamp = () => new Date().toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+    app.tx = () => "TXN" + Math.random().toString(36).slice(2, 11).toUpperCase();
+    app.sellerId = () => "SELLER-" + Math.random().toString(36).slice(2, 10).toUpperCase();
+    app.requestId = () => "REQ-" + Math.random().toString(36).slice(2, 10).toUpperCase();
+
+    app.branch = (id) => app.BRANCHES.find((item) => item.id === id) || null;
+    app.resourceMetaForFormat = (format) => {
+      if (format === "Book" || format === "E-Book") {
+        return { price: 299, pages: 1 };
+      }
+      if (format === "Handwritten Notes" || format === "Handwritten") {
+        return { price: 149, pages: 1 };
+      }
+      return { price: 99, pages: 1 };
+    };
+    app.noteWithDefaults = (note) => ({
+      ...app.resourceMetaForFormat(note.format),
+      ...note,
+      sellerId: note.sellerId || "owner",
+      sellerName: note.sellerName || app.DEVELOPER_STORE_NAME,
+      uploadName: note.uploadName || "",
+      uploadDataUrl: note.uploadDataUrl || "",
+      uploadUrl: note.uploadUrl || "",
+      uploadSize: Number(note.uploadSize) || 0,
+      storagePath: note.storagePath || ""
+    });
+
+    app.downloadUploadedFile = function (note) {
+      const fileHref = note ? (note.uploadDataUrl || note.uploadUrl || "") : "";
+      if (!fileHref) {
+        return false;
+      }
+
+      const link = document.createElement("a");
+      link.href = fileHref;
+      link.download = note.uploadName || `${note.title || "resource"}.pdf`;
+      if (!note.uploadDataUrl) {
+        link.target = "_blank";
+        link.rel = "noopener";
+      }
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return true;
+    };
+
+    app.buildStorePayload = function () {
+      return {
+        allNotes: app.state.allNotes.map((note) => ({
+          ...note,
+          uploadName: note.uploadName || "",
+          uploadDataUrl: note.uploadDataUrl || "",
+          uploadUrl: note.uploadUrl || "",
+          uploadSize: Number(note.uploadSize) || 0,
+          storagePath: note.storagePath || ""
+        })),
+        sellerRequests: app.state.sellerRequests.map((item) => ({ ...item })),
+        verifiedSellers: app.state.verifiedSellers.map((item) => ({ ...item }))
+      };
+    };
+
+    app.cacheStorePayload = function (payload) {
+      try {
+        window.localStorage.setItem(app.STORAGE_KEY, JSON.stringify(payload));
+      } catch (error) {
+        // Ignore storage failures on restricted file:// origins.
+      }
+    };
+
+    app.applyStorePayload = function (payload) {
+      if (!payload || typeof payload !== "object") {
+        return false;
+      }
+
+      app.state.allNotes = Array.isArray(payload.allNotes) && payload.allNotes.length ? payload.allNotes.map(app.noteWithDefaults) : app.INITIAL_NOTES.map(app.noteWithDefaults);
+      app.state.sellerRequests = Array.isArray(payload.sellerRequests) ? payload.sellerRequests : [];
+      app.state.verifiedSellers = Array.isArray(payload.verifiedSellers) ? payload.verifiedSellers : [];
+      return true;
+    };
+
+    app.syncFromFirebase = async function () {
+      const storeApi = window.firebaseStoreApi;
+      if (!storeApi || !storeApi.ready) {
+        return false;
+      }
+
+      try {
+        const ready = await storeApi.ready;
+        if (!ready) {
+          return false;
+        }
+
+        const remotePayload = await storeApi.loadStore();
+        if (remotePayload) {
+          storeApi.error = null;
+          app.applyStorePayload(remotePayload);
+          app.cacheStorePayload(app.buildStorePayload());
+          if (typeof app.render === "function") {
+            app.render();
+          }
+          return true;
+        }
+
+        const seededPayload = await storeApi.saveStore(app.buildStorePayload());
+        if (seededPayload) {
+          storeApi.error = null;
+          app.applyStorePayload(seededPayload);
+          app.cacheStorePayload(app.buildStorePayload());
+          if (typeof app.render === "function") {
+            app.render();
+          }
+        }
+        return true;
+      } catch (error) {
+        storeApi.error = error instanceof Error ? error.message : String(error);
+        if (typeof app.renderMain === "function") {
+          app.renderMain();
+        }
+        return false;
+      }
+    };
+
+    app.startFirebaseSync = async function () {
+      const storeApi = window.firebaseStoreApi;
+      if (!storeApi || !storeApi.ready || typeof storeApi.watchStore !== "function") {
+        return false;
+      }
+
+      try {
+        const ready = await storeApi.ready;
+        if (!ready) {
+          return false;
+        }
+
+        if (typeof app.stopFirebaseSync === "function") {
+          app.stopFirebaseSync();
+        }
+
+        app.stopFirebaseSync = storeApi.watchStore(
+          (remotePayload) => {
+            if (!remotePayload) {
+              return;
+            }
+
+            storeApi.error = null;
+            app.applyStorePayload(remotePayload);
+            app.cacheStorePayload(app.buildStorePayload());
+            if (typeof app.render === "function") {
+              app.render();
+            }
+          },
+          (error) => {
+            storeApi.error = error instanceof Error ? error.message : String(error);
+            if (typeof app.renderMain === "function") {
+              app.renderMain();
+            }
+          }
+        );
+
+        return true;
+      } catch (error) {
+        storeApi.error = error instanceof Error ? error.message : String(error);
+        if (typeof app.renderMain === "function") {
+          app.renderMain();
+        }
+        return false;
+      }
+    };
+
+    app.firebaseStatus = function () {
+      const storeApi = window.firebaseStoreApi;
+      if (!storeApi) {
+        return "Firebase sync is not available in this browser session.";
+      }
+      if (storeApi.error) {
+        return `Firebase sync error: ${storeApi.error}`;
+      }
+      if (storeApi.enabled) {
+        return "Firebase sync is active. Remote listings should appear on every device.";
+      }
+      return "Firebase sync is preparing.";
+    };
+
+    app.readStore = function () {
+      try {
+        const raw = window.localStorage.getItem(app.STORAGE_KEY);
+        if (!raw) {
+          return {
+            allNotes: app.INITIAL_NOTES.map(app.noteWithDefaults),
+            sellerRequests: [],
+            verifiedSellers: []
+          };
+        }
+
+        const parsed = JSON.parse(raw);
+        return {
+          allNotes: Array.isArray(parsed.allNotes) && parsed.allNotes.length ? parsed.allNotes.map(app.noteWithDefaults) : app.INITIAL_NOTES.map(app.noteWithDefaults),
+          sellerRequests: Array.isArray(parsed.sellerRequests) ? parsed.sellerRequests : [],
+          verifiedSellers: Array.isArray(parsed.verifiedSellers) ? parsed.verifiedSellers : []
+        };
+      } catch (error) {
+        return {
+          allNotes: app.INITIAL_NOTES.map(app.noteWithDefaults),
+          sellerRequests: [],
+          verifiedSellers: []
+        };
+      }
+    };
+
+    app.writeStore = function () {
+      const payload = app.buildStorePayload();
+      app.cacheStorePayload(payload);
+
+      const storeApi = window.firebaseStoreApi;
+      if (!storeApi || !storeApi.ready) {
+        return Promise.resolve(false);
+      }
+
+      return storeApi.ready
+        .then((ready) => ready ? storeApi.saveStore(payload) : null)
+        .then((remotePayload) => {
+          if (!remotePayload) {
+            storeApi.error = storeApi.error || "Firebase is not ready yet.";
+            if (typeof app.renderMain === "function") {
+              app.renderMain();
+            }
+            return false;
+          }
+
+          storeApi.error = null;
+          app.applyStorePayload(remotePayload);
+          app.cacheStorePayload(app.buildStorePayload());
+          if (typeof app.renderMain === "function") {
+            app.renderMain();
+          }
+          return true;
+        })
+        .catch((error) => {
+          storeApi.error = error instanceof Error ? error.message : String(error);
+          if (typeof app.renderMain === "function") {
+            app.renderMain();
+          }
+          return false;
+        });
+    };
+
+    const stored = app.readStore();
+
+    app.state = {
+      view: "home",
+      role: "buyer",
+      activeSellerId: null,
+      showNotice: true,
+      allNotes: stored.allNotes,
+      sellerRequests: stored.sellerRequests,
+      verifiedSellers: stored.verifiedSellers,
+      selectedBranch: null,
+      selectedItem: null,
+      search: "",
+      receipt: null,
+      newNote: app.blankNote(),
+      verifyForm: app.blankVerify(),
+      sellerLogin: app.blankSellerLogin()
+    };
+
+    app.isOwner = () => app.state.role === "owner";
+    app.isVerifiedSeller = () => false;
+    app.canSell = () => app.isOwner();
+    app.currentSeller = () => (app.isOwner() ? { id: "owner", name: app.DEVELOPER_STORE_NAME } : null);
+    app.selected = () => app.state.allNotes.find((note) => note.id === app.state.selectedItem) || null;
+
+    app.inventoryNotes = function () {
+      if (app.isOwner()) {
+        return app.state.allNotes;
+      }
+
+      return [];
+    };
+
+    app.filteredNotes = function () {
+      let notes = app.state.allNotes.slice();
+      if (app.state.selectedBranch) {
+        notes = notes.filter((note) => note.branch === app.state.selectedBranch);
+      }
+
+      const query = app.state.search.trim().toLowerCase();
+      if (query) {
+        notes = notes.filter((note) => [note.title, note.author, note.format].join(" ").toLowerCase().includes(query));
+      }
+
+      return notes;
+    };
+  </script>
+  <script>
+    const appRender = window.app;
+
+    appRender.noteCard = function (note) {
+      const noteBranch = appRender.branch(note.branch);
+      return `
+        <div class="card">
+          <div class="note-top">ðŸ“„<span class="tag">${appRender.esc(note.format)}</span></div>
+          <div class="note-body">
+            <div class="meta">
+              <span class="star">â˜… ${Number(note.rating || 5).toFixed(1)}</span>
+              <span>${appRender.esc(noteBranch ? noteBranch.name : note.branch)}</span>
+            </div>
+            <h3 class="title">${appRender.esc(note.title)}</h3>
+            <div class="sub">By ${appRender.esc(note.author)} â€¢ ${note.pages} pages</div>
+            <div class="row" style="justify-content:space-between;margin-top:14px">
+              <span class="price">${appRender.money(note.price)}</span>
+              <button class="btn primary" data-action="buy" data-id="${note.id}" type="button">Buy</button>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    appRender.branchCard = function (item) {
+      return `
+        <button class="card branch" data-action="branch" data-id="${item.id}" type="button">
+          <div class="icon ${item.id}">${item.icon}</div>
+          <strong>${appRender.esc(item.name)}</strong>
+        </button>
+      `;
+    };
+
+    appRender.stockRow = function (note) {
+      const noteBranch = appRender.branch(note.branch);
+      const formatLabel = String(note.format || "PDF").slice(0, 3).toUpperCase();
+      return `
+        <div class="panel item">
+          <div class="left">
+            <div class="ibox">${appRender.esc(formatLabel)}</div>
+            <div class="request-copy">
+              <strong>${appRender.esc(note.title)}</strong>
+              <div class="sub">By ${appRender.esc(note.author)}</div>
+              <div class="item-meta">
+                <span class="mini-badge">${appRender.esc(noteBranch ? noteBranch.name : note.branch)}</span>
+                <span class="mini-badge">${appRender.esc(note.format)}</span>
+                <span class="mini-badge">${appRender.money(note.price)}</span>
+              </div>
+              <div class="small-note">${note.uploadDataUrl ? `Uploaded file: ${appRender.esc(note.uploadName || "Ready for download")}` : "No file uploaded yet"}</div>
+              <div class="small-note">Visible on the public buyer dashboard</div>
+            </div>
+          </div>
+          <div class="actions2">
+            <button class="btn" data-action="preview" data-id="${note.id}" type="button">Preview</button>
+            <button class="btn danger" data-action="delete" data-id="${note.id}" type="button">Remove</button>
+          </div>
+        </div>
+      `;
+    };
+    appRender.requestRow = function (request) {
+      const requestBranch = appRender.branch(request.branch);
+      return `
+        <div class="panel item">
+          <div class="left">
+            <div class="ibox">ðŸ“</div>
+            <div class="request-copy">
+              <strong>${appRender.esc(request.name)}</strong>
+              <div class="sub">${appRender.esc(request.email)} â€¢ ${appRender.esc(requestBranch ? requestBranch.name : request.branch)}</div>
+              <div class="small-note">${appRender.esc(request.reason || "No reason shared.")}</div>
+            </div>
+          </div>
+          <div class="actions2">
+            <span class="status-pill ${request.status}">${appRender.esc(request.status)}</span>
+            ${request.status === "pending" ? `
+              <button class="btn primary" data-action="approve-request" data-id="${request.id}" type="button">Approve</button>
+              <button class="btn danger" data-action="reject-request" data-id="${request.id}" type="button">Reject</button>
+            ` : ""}
+          </div>
+        </div>
+      `;
+    };
+
+    appRender.approvedSellerRow = function (seller) {
+      return `
+        <div class="panel item">
+          <div class="left">
+            <div class="ibox">âœ…</div>
+            <div class="request-copy">
+              <strong>${appRender.esc(seller.name)}</strong>
+              <div class="sub">${appRender.esc(seller.email)} â€¢ ${appRender.esc(appRender.branch(seller.branch)?.name || seller.branch)}</div>
+              <div class="small-note">Private seller code: ${appRender.esc(seller.sellerCode)}</div>
+            </div>
+          </div>
+          <div class="actions2">
+            <span class="status-pill approved">approved</span>
+          </div>
+        </div>
+      `;
+    };
+
+    appRender.homeView = function () {
+      return `
+        <div class="stack">
+          <section class="hero">
+            <div class="eyebrow">âœ¨ Powered by CampusLink</div>
+            <h1>CampusSeller Marketplace</h1>
+            <p>The official platform for premium engineering study materials, curated by CampusLink. Buyers can only browse and purchase PDFs or books. Listing and selling controls stay inside the hidden developer dashboard.</p>
+            <div class="hero-actions">
+              <button class="btn primary" data-action="all" type="button">Browse All Resources</button>
+            </div>
+          </section>
+
+          <section class="panel pad">
+            <strong>Private developer rules</strong>
+            <div class="helper" style="margin-top:8px">Only the hidden developer dashboard can add, edit, or manage PDFs and books. Everyone outside that dashboard stays in buyer mode and only sees purchase-ready items.</div>
+          </section>
+
+          <section class="stack">
+            <div class="section-head">
+              <div class="headline"><h2>Select Your Branch</h2></div>
+            </div>
+            <div class="grid branches">${appRender.BRANCHES.map(appRender.branchCard).join("")}</div>
+          </section>
+
+          <section class="stack">
+            <div class="section-head">
+              <div class="headline"><h2>Trending Now</h2></div>
+              <button class="linkbtn" data-action="all" type="button">View All â†’</button>
+            </div>
+            <div class="grid notes">${appRender.state.allNotes.slice(0, 4).map(appRender.noteCard).join("")}</div>
+          </section>
+        </div>
+      `;
+    };
+
+    appRender.branchView = function () {
+      const selectedBranch = appRender.branch(appRender.state.selectedBranch);
+      const notes = appRender.filteredNotes();
+      return `
+        <div class="view">
+          <div class="view-head">
+            <button class="btn back" data-action="home" type="button">â†</button>
+            <div>
+              <h2>${appRender.esc(selectedBranch ? selectedBranch.name + " Engineering" : "All Engineering Resources")}</h2>
+              <div class="sub">${appRender.esc(selectedBranch ? "Official resources curated through CampusLink." : "Browse every available listing across departments.")}</div>
+            </div>
+          </div>
+          ${notes.length ? `<div class="grid notes">${notes.map(appRender.noteCard).join("")}</div>` : `<div class="empty"><strong>No notes found</strong><span>Try another search term or check back after more items are added.</span></div>`}
+        </div>
+      `;
+    };
+
+    appRender.verificationView = function () {
+      return `
+        <div class="view">
+          <div class="view-head">
+            <button class="btn back" data-action="home" type="button">â†</button>
+            <div>
+              <h2>Developer Access Only</h2>
+              <div class="sub">Selling access is restricted to the hidden developer dashboard. Public users can only browse and buy PDFs or books.</div>
+            </div>
+          </div>
+          <div class="panel pad">
+            <strong>Buyer Mode Active</strong>
+            <div class="helper" style="margin-top:8px">Add/manage/sell controls are hidden from the public interface. Use the private developer access flow to open the dashboard.</div>
+          </div>
+        </div>
+      `;
+    };
+  </script>
+  <script>
+    const appViews = window.app;
+
+    appViews.renderOwnerApprovalPanel = function () {
+      const pending = appViews.state.sellerRequests.filter((request) => request.status === "pending");
+      const approved = appViews.state.verifiedSellers;
+
+      return `
+        <div class="panel pad">
+          <h3>Friend Seller Verification</h3>
+          <div class="helper" style="margin-bottom:14px">Approve only trusted friends. Public buyers cannot see this panel. Share invite code <strong>${appViews.esc(appViews.FRIEND_INVITE_CODE)}</strong> only with people you trust.</div>
+          <div class="list">
+            ${pending.length ? pending.map(appViews.requestRow).join("") : `<div class="empty"><strong>No pending requests</strong><span>New friend verification requests will appear here.</span></div>`}
+          </div>
+          <div class="list" style="margin-top:16px">
+            ${approved.length ? approved.map(appViews.approvedSellerRow).join("") : ""}
+          </div>
+        </div>
+      `;
+    };
+
+    appViews.adminView = function () {
+      const title = "Developer Dashboard";
+      const copy = "Only hidden developer access can open this panel. Add PDFs/books here and manage what buyers can purchase on the public dashboard.";
+      const notes = appViews.inventoryNotes();
+      const sellerName = appViews.DEVELOPER_STORE_NAME;
+      const liveBranches = new Set(notes.map((note) => note.branch)).size;
+      const totalValue = notes.reduce((sum, note) => sum + Number(note.price || 0), 0);
+
+      return `
+        <div class="view">
+          <div class="view-head">
+            <button class="btn back" data-action="home" type="button">Back</button>
+            <div>
+              <h2>${appViews.esc(title)}</h2>
+              <div class="sub">${appViews.esc(copy)}</div>
+            </div>
+          </div>
+
+          <div class="admin developer-admin">
+            <form class="panel form developer-form" data-form="note">
+              <span class="stat-label">Developer Only</span>
+              <h3>Add Buyer Listing</h3>
+              <div class="helper">Listings created here are published under <strong>${appViews.esc(sellerName)}</strong> and become visible on the buyer dashboard.</div>
+              <div class="field"><label>Title</label><input name="title" value="${appViews.esc(appViews.state.newNote.title)}" placeholder="e.g. Engineering Mathematics" required></div>
+              <div class="formgrid">
+                <div class="field"><label>Branch</label><select name="branch">${appViews.BRANCHES.map((item) => `<option value="${item.id}" ${appViews.state.newNote.branch === item.id ? "selected" : ""}>${appViews.esc(item.name)}</option>`).join("")}</select></div>
+                <div class="field"><label>Price (Rs.)</label><input name="price" type="number" min="1" value="${appViews.esc(appViews.state.newNote.price)}" required></div>
+              </div>
+              <div class="field"><label>Author</label><input name="author" value="${appViews.esc(appViews.state.newNote.author)}" required></div>
+              <div class="formgrid">
+                <div class="field"><label>Pages</label><input name="pages" type="number" min="1" value="${appViews.esc(appViews.state.newNote.pages)}" required></div>
+                <div class="field"><label>Format</label><select name="format"><option ${appViews.state.newNote.format === "PDF" ? "selected" : ""}>PDF</option><option ${appViews.state.newNote.format === "E-Book" ? "selected" : ""}>E-Book</option><option ${appViews.state.newNote.format === "Handwritten" ? "selected" : ""}>Handwritten</option></select></div>
+              </div>
+              <button class="btn primary" type="submit">Publish to Buyer Dashboard</button>
+            </form>
+
+            <div class="stack developer-content">
+              <div class="stats">
+                <div class="stat-card">
+                  <span class="stat-label">Live Listings</span>
+                  <span class="stat-value">${notes.length}</span>
+                  <div class="small-note">Resources currently visible to buyers</div>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-label">Covered Branches</span>
+                  <span class="stat-value">${liveBranches}</span>
+                  <div class="small-note">Departments with at least one active item</div>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-label">Catalog Value</span>
+                  <span class="stat-value">${appViews.money(totalValue)}</span>
+                  <div class="small-note">Combined price of all published items</div>
+                </div>
+              </div>
+              <div class="panel list-panel">
+                <div class="list-head">
+                  <div>
+                    <h3>Published Resources</h3>
+                    <div class="helper">Preview or remove the PDFs and books that buyers can currently see.</div>
+                  </div>
+                  <div class="small-note">Hidden developer controls</div>
+                </div>
+                <div class="list">
+                  ${notes.length ? notes.map(appViews.stockRow).join("") : `<div class="empty"><strong>No published resources</strong><span>Add your first resource from the form on the left.</span></div>`}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+    appViews.checkoutView = function () {
+      const item = appViews.selected();
+      if (!item) {
+        return `<div class="empty"><strong>No item selected</strong><span>Choose a note from the marketplace before opening checkout.</span></div>`;
+      }
+
+      return `
+        <div class="panel checkout">
+          <div class="pad">
+            <div class="bill">
+              <div>
+                <h3>Order Summary</h3>
+                <div class="summary">
+                  <div class="sumglyph">ðŸ“„</div>
+                  <div>
+                    <strong>${appViews.esc(item.title)}</strong>
+                    <div class="sub">${appViews.esc(item.author)} â€¢ ${item.pages} pages â€¢ ${appViews.esc(item.format)}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="totals">
+                <div class="line"><span>Base Price</span><span>${appViews.money(item.price)}</span></div>
+                <div class="line"><span>Processing Fee</span><span style="color:var(--success);font-weight:700">FREE</span></div>
+                <div class="line total"><span>Total Amount</span><span>${appViews.money(item.price)}</span></div>
+              </div>
+              <div class="safe"><strong>ðŸ›¡ï¸ Secure Payment</strong><br>Payment is validated through the CampusLink checkout flow in this demo.</div>
+            </div>
+          </div>
+          <div class="pad qrside">
+            <div class="qrwrap">
+              <div><h3>Scan to Pay</h3><div class="sub">Pay for the selected PDF or book and confirm once done.</div></div>
+              <div class="qrbox" aria-hidden="true"></div>
+              <div class="actions2 screen">
+                <button class="btn dark" data-action="pay" type="button">I've Completed the Payment</button>
+                <button class="btn" data-action="cancel" type="button">Cancel Transaction</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    appViews.receiptView = function () {
+      const receipt = appViews.state.receipt;
+      if (!receipt) {
+        return `<div class="empty"><strong>No receipt available</strong><span>Complete a checkout to generate a payment confirmation receipt.</span></div>`;
+      }
+
+      return `
+        <div class="panel receipt">
+          <div class="receipt-top">
+            <button class="print screen" data-action="print" type="button">ðŸ–¨ï¸</button>
+            <div class="okmark">âœ…</div>
+            <h2 style="margin:12px 0 6px">Payment Successful!</h2>
+            <div>Verified by CampusLink</div>
+          </div>
+          <div class="receipt-body">
+            <div class="receipt-sum">
+              <div>
+                <h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Transaction ID</h3>
+                <div class="mono">${appViews.esc(receipt.transactionId)}</div>
+                <div class="sub" style="margin-top:6px">${appViews.esc(receipt.date)}</div>
+              </div>
+              <div style="text-align:right">
+                <h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Amount Paid</h3>
+                <div class="amount">${appViews.money(receipt.price)}</div>
+              </div>
+            </div>
+            <div class="box">
+              <h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Resource Details</h3>
+              <strong>${appViews.esc(receipt.title)}</strong>
+              <div class="sub">${appViews.esc(receipt.format)} â€¢ ${receipt.pages} pages â€¢ ${appViews.esc(receipt.author)}</div>
+            </div>
+            <div class="ok"><strong>â¬‡ï¸ Ready for Download</strong><br>This standalone demo confirms the payment flow, but it does not yet generate a real file delivery backend.</div>
+            <div class="actions2 screen">
+              <button class="btn primary" data-action="download" type="button">Download File</button>
+              <button class="btn" data-action="reset" type="button">Return to Store</button>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+  </script>
+  <script>
+    const appUi = window.app;
+
+    appUi.BRANCHES = [
+      { id: "cse", name: "Computer Science", icon: "CS" },
+      { id: "mech", name: "Mechanical", icon: "ME" },
+      { id: "elec", name: "Electrical", icon: "EE" },
+      { id: "civil", name: "Civil", icon: "CE" },
+      { id: "ece", name: "Electronics", icon: "EC" }
+    ];
+
+    appUi.coverLabel = function (note) {
+      if (note.format === "Book") {
+        return "BOOK";
+      }
+      if (note.format === "Handwritten Notes") {
+        return "NOTES";
+      }
+      return "PDF";
+    };
+
+    appUi.noteCard = function (note) {
+      const noteBranch = appUi.branch(note.branch);
+      const sellerName = note.sellerName || appUi.DEVELOPER_STORE_NAME;
+      return `
+        <div class="card">
+          <div class="note-top">${appUi.coverLabel(note)}<span class="tag">${appUi.esc(note.format)}</span></div>
+          <div class="note-body">
+            <div class="meta">
+              <span>Rating ${Number(note.rating || 5).toFixed(1)}</span>
+              <span>${appUi.esc(noteBranch ? noteBranch.name : note.branch)}</span>
+            </div>
+            <h3 class="title">${appUi.esc(note.title)}</h3>
+            <div class="sub">By ${appUi.esc(note.author)}</div>
+            <div class="item-meta">
+              <span class="mini-badge">${appUi.esc(note.format)}</span>
+              <span class="mini-badge">${appUi.esc(noteBranch ? noteBranch.name : note.branch)}</span>
+              <span class="mini-badge">Seller: ${appUi.esc(sellerName)}</span>
+            </div>
+            <div class="row" style="justify-content:space-between;margin-top:14px">
+              <span class="price">${appUi.money(note.price)}</span>
+              <button class="btn primary" data-action="buy" data-id="${note.id}" type="button">Buy Now</button>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    appUi.branchCard = function (item) {
+      return `
+        <button class="card branch" data-action="branch" data-id="${item.id}" type="button">
+          <div class="icon ${item.id}">${appUi.esc(item.icon)}</div>
+          <strong>${appUi.esc(item.name)}</strong>
+        </button>
+      `;
+    };
+
+    appUi.homeView = function () {
+      const publishedNotes = appUi.state.allNotes.slice();
+      return `
+        <div class="stack">
+          <section class="hero">
+            <div class="eyebrow">CampusLink Marketplace</div>
+            <h1>CampusSeller Marketplace</h1>
+            <p>Browse engineering PDFs, books, and handwritten notes. Every published resource from your team is shown here on the home page in a buyer-ready format.</p>
+            <div class="hero-actions">
+              <button class="btn primary" data-action="all" type="button">Browse All Resources</button>
+            </div>
+          </section>
+
+          <section class="panel pad">
+            <strong>Private Access Rules</strong>
+            <div class="helper" style="margin-top:8px">Only the hidden developer dashboard can add, edit, or remove listings. Every published book, PDF, or handwritten note appears below on the home page for buyers.</div>
+          </section>
+
+          <section class="stack">
+            <div class="section-head">
+              <div class="headline"><h2>Select Your Branch</h2></div>
+            </div>
+            <div class="grid branches">${appUi.BRANCHES.map(appUi.branchCard).join("")}</div>
+          </section>
+
+          <section class="stack">
+            <div class="section-head">
+              <div class="headline"><h2>Books and Notes for Sale</h2></div>
+              <button class="linkbtn" data-action="all" type="button">View All</button>
+            </div>
+            <div class="helper">Published listings: <strong>${publishedNotes.length}</strong></div>
+            ${publishedNotes.length ? `<div class="grid notes">${publishedNotes.map(appUi.noteCard).join("")}</div>` : `<div class="empty"><strong>No items published yet</strong><span>Add books, PDFs, or handwritten notes from the developer dashboard to show them here.</span></div>`}
+          </section>
+        </div>
+      `;
+    };
+
+    appUi.branchView = function () {
+      const selectedBranch = appUi.branch(appUi.state.selectedBranch);
+      const notes = appUi.filteredNotes();
+      return `
+        <div class="view">
+          <div class="view-head">
+            <button class="btn back" data-action="home" type="button">Back</button>
+            <div>
+              <h2>${appUi.esc(selectedBranch ? selectedBranch.name + " Resources" : "All Resources")}</h2>
+              <div class="sub">${appUi.esc(selectedBranch ? "Browse published materials for this branch." : "Browse every published PDF, book, and note from the catalog.")}</div>
+            </div>
+          </div>
+          ${notes.length ? `<div class="grid notes">${notes.map(appUi.noteCard).join("")}</div>` : `<div class="empty"><strong>No resources found</strong><span>Try another search term or check back after new items are published.</span></div>`}
+        </div>
+      `;
+    };
+
+    appUi.verificationView = function () {
+      return `
+        <div class="view">
+          <div class="view-head">
+            <button class="btn back" data-action="home" type="button">Back</button>
+            <div>
+              <h2>Developer Access Only</h2>
+              <div class="sub">Selling access is restricted to the hidden developer dashboard. Public users can only browse and buy PDFs or books.</div>
+            </div>
+          </div>
+          <div class="panel pad">
+            <strong>Buyer Mode Active</strong>
+            <div class="helper" style="margin-top:8px">Add, manage, and selling controls stay hidden from the public interface.</div>
+          </div>
+        </div>
+      `;
+    };
+
+    appUi.adminView = function () {
+      const notes = appUi.inventoryNotes();
+      const liveBranches = new Set(notes.map((note) => note.branch)).size;
+      const totalValue = notes.reduce((sum, note) => sum + Number(note.price || 0), 0);
+
+      return `
+        <div class="view">
+          <div class="view-head">
+            <button class="btn back" data-action="home" type="button">Back</button>
+            <div>
+              <h2>Developer Dashboard</h2>
+              <div class="sub">Manage the resources shown on the buyer dashboard. Publish new listings, preview active items, and remove outdated content.</div>
+            </div>
+          </div>
+
+          <div class="admin developer-admin">
+            <form class="panel form developer-form" data-form="note">
+              <span class="stat-label">Developer Only</span>
+              <h3>Publish New Resource</h3>
+              <div class="helper">Every item created here becomes visible on the public buyer dashboard under ${appUi.esc(appUi.DEVELOPER_STORE_NAME)}.</div>
+              <div class="small-note">${appUi.esc(appUi.firebaseStatus())}</div>
+              <div class="field"><label>Title</label><input name="title" value="${appUi.esc(appUi.state.newNote.title)}" placeholder="e.g. Engineering Mathematics" required></div>
+              <div class="field"><label>Branch</label><select name="branch">${appUi.BRANCHES.map((item) => `<option value="${item.id}" ${appUi.state.newNote.branch === item.id ? "selected" : ""}>${appUi.esc(item.name)}</option>`).join("")}</select></div>
+              <div class="field"><label>Author</label><input name="author" value="${appUi.esc(appUi.state.newNote.author)}" required></div>
+              <div class="field"><label>Resource Type</label><select name="format"><option ${appUi.state.newNote.format === "PDF" ? "selected" : ""}>PDF</option><option ${appUi.state.newNote.format === "Book" ? "selected" : ""}>Book</option><option ${appUi.state.newNote.format === "Handwritten Notes" ? "selected" : ""}>Handwritten Notes</option></select></div>
+              <div class="field"><label>Price (INR)</label><input name="price" type="number" min="1" step="1" value="${appUi.esc(appUi.state.newNote.price)}" placeholder="e.g. 199" required></div>
+              <div class="field">
+                <label>Upload File</label>
+                <input name="pdfFile" type="file" accept=".pdf,.epub,.jpg,.jpeg,.png,.webp">
+                <div class="small-note">${appUi.state.newNote.uploadName ? `Selected file: ${appUi.esc(appUi.state.newNote.uploadName)} (${appUi.formatBytes(appUi.state.newNote.uploadSize)})` : `Upload a PDF, book file, or handwritten notes file up to ${appUi.formatBytes(appUi.MAX_UPLOAD_SIZE_BYTES)}.`}</div>
+              </div>
+              <button class="btn primary" type="submit">Publish to Buyer Dashboard</button>
+            </form>
+
+            <div class="stack developer-content">
+              <div class="stats">
+                <div class="stat-card">
+                  <span class="stat-label">Live Listings</span>
+                  <span class="stat-value">${notes.length}</span>
+                  <div class="small-note">Resources currently visible to buyers</div>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-label">Covered Branches</span>
+                  <span class="stat-value">${liveBranches}</span>
+                  <div class="small-note">Departments with at least one published resource</div>
+                </div>
+                <div class="stat-card">
+                  <span class="stat-label">Catalog Value</span>
+                  <span class="stat-value">${appUi.money(totalValue)}</span>
+                  <div class="small-note">Combined price of all published resources</div>
+                </div>
+              </div>
+
+              <div class="panel list-panel">
+                <div class="list-head">
+                  <div>
+                    <h3>Published Resources</h3>
+                    <div class="helper">Preview the buyer flow or remove any item that should no longer appear on the public dashboard.</div>
+                  </div>
+                  <div class="small-note">Private developer controls</div>
+                </div>
+                <div class="list">
+                  ${notes.length ? notes.map(appUi.stockRow).join("") : `<div class="empty"><strong>No published resources</strong><span>Add your first resource from the form on the left.</span></div>`}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    appUi.checkoutView = function () {
+      const item = appUi.selected();
+      if (!item) {
+        return `<div class="empty"><strong>No item selected</strong><span>Choose a resource from the marketplace before opening checkout.</span></div>`;
+      }
+
+      return `
+        <div class="panel checkout">
+          <div class="pad">
+            <div class="bill">
+              <div>
+                <h3>Order Summary</h3>
+                <div class="summary">
+                  <div class="sumglyph">Pay</div>
+                  <div>
+                    <strong>${appUi.esc(item.title)}</strong>
+                    <div class="sub">${appUi.esc(item.author)} / ${appUi.esc(item.format)}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="totals">
+                <div class="line"><span>Base Price</span><span>${appUi.money(item.price)}</span></div>
+                <div class="line"><span>Processing Fee</span><span style="color:var(--success);font-weight:700">Free</span></div>
+                <div class="line total"><span>Total Amount</span><span>${appUi.money(item.price)}</span></div>
+              </div>
+              <div class="safe"><strong>Secure Payment</strong><br>Payment is validated through the CampusLink checkout flow in this demo.</div>
+            </div>
+          </div>
+          <div class="pad qrside">
+            <div class="qrwrap">
+              <div><h3>Scan to Pay</h3><div class="sub">Pay for the selected PDF or book, then confirm the transaction.</div></div>
+              <div class="qrbox" aria-hidden="true"></div>
+              <div class="actions2 screen">
+                <button class="btn dark" data-action="pay" type="button">I Completed the Payment</button>
+                <button class="btn" data-action="cancel" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+
+    appUi.receiptView = function () {
+      const receipt = appUi.state.receipt;
+      if (!receipt) {
+        return `<div class="empty"><strong>No receipt available</strong><span>Complete a checkout to generate a payment receipt.</span></div>`;
+      }
+
+      return `
+        <div class="panel receipt">
+          <div class="receipt-top">
+            <button class="print screen" data-action="print" type="button">Print</button>
+            <div class="okmark">Paid</div>
+            <h2 style="margin:12px 0 6px">Payment Successful</h2>
+            <div>Verified by CampusLink</div>
+          </div>
+          <div class="receipt-body">
+            <div class="receipt-sum">
+              <div>
+                <h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Transaction ID</h3>
+                <div class="mono">${appUi.esc(receipt.transactionId)}</div>
+                <div class="sub" style="margin-top:6px">${appUi.esc(receipt.date)}</div>
+              </div>
+              <div style="text-align:right">
+                <h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Amount Paid</h3>
+                <div class="amount">${appUi.money(receipt.price)}</div>
+              </div>
+            </div>
+            <div class="box">
+              <h3 style="font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)">Resource Details</h3>
+              <strong>${appUi.esc(receipt.title)}</strong>
+              <div class="sub">${appUi.esc(receipt.format)} / ${appUi.esc(receipt.author)}</div>
+              <div class="small-note" style="margin-top:8px">${receipt.uploadDataUrl ? `Included file: ${appUi.esc(receipt.uploadName || "Ready to download")}` : "No uploaded file is attached to this listing."}</div>
+            </div>
+            <div class="ok"><strong>${receipt.uploadDataUrl ? "Ready for Download" : "Payment Confirmed"}</strong><br>${receipt.uploadDataUrl ? "The uploaded file is available for download below." : "This listing does not include an uploaded file yet."}</div>
+            <div class="actions2 screen">
+              <button class="btn primary" data-action="download" type="button">Download File</button>
+              <button class="btn" data-action="reset" type="button">Return to Store</button>
+            </div>
+          </div>
+        </div>
+      `;
+    };
+  </script>
+  <script>
+    const appRun = window.app;
+
+    appRun.resetPage = function () {
+      appRun.state.view = "home";
+      appRun.state.selectedBranch = null;
+      appRun.state.selectedItem = null;
+      appRun.state.receipt = null;
+    };
+
+    appRun.logout = function () {
+      appRun.state.role = "buyer";
+      appRun.state.activeSellerId = null;
+      appRun.resetPage();
+      appRun.render();
+    };
+
+    appRun.openOwnerAccess = function () {
+      if (appRun.isOwner()) {
+        appRun.state.view = "admin";
+        appRun.render();
+        return;
+      }
+
+      const accessKey = window.prompt("Enter developer access key:");
+      if (accessKey === null) {
+        return;
+      }
+
+      if (accessKey !== appRun.OWNER_ACCESS_KEY) {
+        window.alert("Invalid developer access key.");
+        return;
+      }
+
+      appRun.state.role = "owner";
+      appRun.state.activeSellerId = "owner";
+      appRun.state.view = "admin";
+      appRun.render();
+    };
+
+    appRun.renderShell = function () {
+      appRun.els.notice.classList.toggle("hidden", !appRun.state.showNotice);
+      appRun.els.sellerBadge.classList.toggle("hidden", !appRun.isOwner());
+      appRun.els.sellerBadge.textContent = "Developer Mode";
+      appRun.els.authBtn.className = "btn warn";
+      appRun.els.authBtn.textContent = "Logout";
+      appRun.els.authBtn.classList.toggle("hidden", !appRun.isOwner());
+      appRun.els.auxBtn.textContent = appRun.isOwner() ? "Open Dashboard" : "Cart";
+
+      if (document.activeElement !== appRun.els.searchInput) {
+        appRun.els.searchInput.value = appRun.state.search;
+      }
+    };
+
+    appRun.renderMain = function () {
+      if (appRun.state.view === "admin" && !appRun.isOwner()) {
+        appRun.state.view = "home";
+      }
+
+      appRun.els.main.innerHTML =
+        appRun.state.view === "branch" ? appRun.branchView() :
+        appRun.state.view === "admin" ? appRun.adminView() :
+        appRun.state.view === "checkout" ? appRun.checkoutView() :
+        appRun.state.view === "receipt" ? appRun.receiptView() :
+        appRun.homeView();
+    };
+
+    appRun.render = function () {
+      appRun.renderShell();
+      appRun.renderMain();
+    };
+
+    document.getElementById("closeNotice").addEventListener("click", () => {
+      appRun.state.showNotice = false;
+      appRun.renderShell();
+    });
+
+    let ownerTapCount = 0;
+    let ownerTapTimer = null;
+
+    document.getElementById("homeBtn").addEventListener("click", () => {
+      appRun.resetPage();
+      appRun.render();
+
+      if (!appRun.canSell()) {
+        ownerTapCount += 1;
+        window.clearTimeout(ownerTapTimer);
+        ownerTapTimer = window.setTimeout(() => {
+          ownerTapCount = 0;
+        }, 1400);
+
+        if (ownerTapCount >= 5) {
+          ownerTapCount = 0;
+          appRun.openOwnerAccess();
+        }
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "o") {
+        event.preventDefault();
+        appRun.openOwnerAccess();
+      }
+    });
+
+    appRun.els.searchInput.addEventListener("input", (event) => {
+      appRun.state.search = event.target.value;
+      if (appRun.state.search.trim() && appRun.state.view === "home") {
+        appRun.state.view = "branch";
+        appRun.state.selectedBranch = null;
+      }
+      appRun.renderMain();
+    });
+
+    appRun.els.authBtn.addEventListener("click", () => {
+      if (appRun.isOwner()) {
+        appRun.logout();
+        return;
+      }
+
+      appRun.openOwnerAccess();
+    });
+
+    appRun.els.auxBtn.addEventListener("click", () => {
+      if (appRun.isOwner()) {
+        appRun.state.view = "admin";
+        appRun.renderMain();
+        return;
+      }
+
+      window.alert("Cart is a placeholder in this standalone demo.");
+    });
+
+    appRun.els.main.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-action]");
+      if (!button) {
+        return;
+      }
+
+      const action = button.dataset.action;
+
+      if (action === "branch") {
+        appRun.state.selectedBranch = button.dataset.id;
+        appRun.state.view = "branch";
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "all") {
+        appRun.state.selectedBranch = null;
+        appRun.state.view = "branch";
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "home") {
+        appRun.resetPage();
+        appRun.render();
+        return;
+      }
+
+      if (action === "buy" || action === "preview") {
+        appRun.state.selectedItem = Number(button.dataset.id);
+        appRun.state.view = "checkout";
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "delete") {
+        const noteId = Number(button.dataset.id);
+        const note = appRun.state.allNotes.find((item) => item.id === noteId);
+        if (!note) {
+          return;
+        }
+
+        if (!window.confirm(`Delete "${note.title}" from the store?`)) {
+          return;
+        }
+
+        const firebaseStoreApi = window.firebaseStoreApi;
+        if (note.storagePath && firebaseStoreApi && firebaseStoreApi.ready) {
+          firebaseStoreApi.ready
+            .then((ready) => ready ? firebaseStoreApi.deleteFile(note.storagePath) : false)
+            .catch(() => {
+              // Ignore remote file deletion failures and keep the catalog write path responsive.
+            });
+        }
+
+        appRun.state.allNotes = appRun.state.allNotes.filter((item) => item.id !== noteId);
+        if (appRun.state.selectedItem === noteId) {
+          appRun.state.selectedItem = null;
+        }
+        appRun.writeStore();
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "approve-request" && appRun.isOwner()) {
+        const request = appRun.state.sellerRequests.find((item) => item.id === button.dataset.id);
+        if (!request) {
+          return;
+        }
+
+        const existing = appRun.state.verifiedSellers.find((seller) => seller.email === request.email.toLowerCase());
+        if (!existing) {
+          appRun.state.verifiedSellers = [{
+            id: appRun.sellerId(),
+            name: request.name,
+            email: request.email.toLowerCase(),
+            branch: request.branch,
+            sellerCode: request.sellerCode,
+            verifiedAt: appRun.stamp()
+          }, ...appRun.state.verifiedSellers];
+        }
+
+        appRun.state.sellerRequests = appRun.state.sellerRequests.map((item) => item.id === request.id ? { ...item, status: "approved", reviewedAt: appRun.stamp() } : item);
+        appRun.writeStore();
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "reject-request" && appRun.isOwner()) {
+        appRun.state.sellerRequests = appRun.state.sellerRequests.map((item) => item.id === button.dataset.id ? { ...item, status: "rejected", reviewedAt: appRun.stamp() } : item);
+        appRun.writeStore();
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "pay") {
+        const item = appRun.selected();
+        if (!item) {
+          window.alert("Select a resource before confirming payment.");
+          return;
+        }
+
+        appRun.state.receipt = { ...item, transactionId: appRun.tx(), date: appRun.stamp() };
+        appRun.state.view = "receipt";
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "cancel") {
+        appRun.state.view = appRun.state.selectedBranch ? "branch" : "home";
+        appRun.renderMain();
+        return;
+      }
+
+      if (action === "print") {
+        window.print();
+        return;
+      }
+
+      if (action === "download") {
+        const note = appRun.state.receipt || appRun.selected();
+        if (!appRun.downloadUploadedFile(note)) {
+          window.alert("No uploaded file is attached to this listing yet.");
+        }
+        return;
+      }
+
+      if (action === "reset") {
+        appRun.resetPage();
+        appRun.render();
+      }
+    });
+  </script>
+  <script>
+    const appForms = window.app;
+
+    appForms.readUploadedFile = function (file) {
+      return new Promise((resolve, reject) => {
+        if (!file) {
+          resolve({ uploadName: "", uploadDataUrl: "", uploadSize: 0 });
+          return;
+        }
+
+        if (!/\.(pdf|epub|jpg|jpeg|png|webp)$/i.test(file.name)) {
+          reject(new Error("Please choose a PDF, EPUB, JPG, PNG, or WEBP file."));
+          return;
+        }
+
+        if (file.size > appForms.MAX_UPLOAD_SIZE_BYTES) {
+          reject(new Error(`File must be ${appForms.formatBytes(appForms.MAX_UPLOAD_SIZE_BYTES)} or smaller.`));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => resolve({
+          uploadName: file.name,
+          uploadDataUrl: String(reader.result || ""),
+          uploadSize: file.size
+        });
+        reader.onerror = () => reject(new Error("Unable to read the selected file."));
+        reader.readAsDataURL(file);
+      });
+    };
+
+    appForms.els.main.addEventListener("input", (event) => {
+      const requestForm = event.target.closest("form[data-form='verify-request']");
+      const loginForm = event.target.closest("form[data-form='seller-login']");
+      const noteForm = event.target.closest("form[data-form='note']");
+
+      if (noteForm && event.target.name && event.target.type !== "file") {
+        appForms.state.newNote[event.target.name] = event.target.value;
+      }
+
+      if (requestForm && event.target.name) {
+        appForms.state.verifyForm[event.target.name] = event.target.value;
+      }
+
+      if (loginForm && event.target.name) {
+        appForms.state.sellerLogin[event.target.name] = event.target.value;
+      }
+    });
+
+    appForms.els.main.addEventListener("change", async (event) => {
+      const noteForm = event.target.closest("form[data-form='note']");
+      if (!noteForm || event.target.name !== "pdfFile") {
+        return;
+      }
+
+      try {
+        const upload = await appForms.readUploadedFile(event.target.files && event.target.files[0]);
+        appForms.state.newNote = { ...appForms.state.newNote, ...upload };
+      } catch (error) {
+        appForms.state.newNote = { ...appForms.state.newNote, uploadName: "", uploadDataUrl: "", uploadSize: 0 };
+        event.target.value = "";
+        window.alert(error.message);
+      }
+
+      appForms.renderMain();
+    });
+
+    appForms.els.main.addEventListener("submit", (event) => {
+      const noteForm = event.target.closest("form[data-form='note']");
+      const requestForm = event.target.closest("form[data-form='verify-request']");
+      const loginForm = event.target.closest("form[data-form='seller-login']");
+
+      if (noteForm) {
+        event.preventDefault();
+
+        const title = appForms.state.newNote.title.trim();
+        const author = appForms.state.newNote.author.trim();
+        const format = appForms.state.newNote.format;
+        const price = Number(appForms.state.newNote.price);
+        const resourceMeta = appForms.resourceMetaForFormat(format);
+
+        if (!title || !author || !format || !price || price < 1 || !appForms.state.newNote.uploadDataUrl) {
+          window.alert("Please complete title, branch, author, resource type, price, and upload file.");
+          return;
+        }
+
+        appForms.state.allNotes = [{
+          id: Date.now(),
+          branch: appForms.state.newNote.branch,
+          title,
+          price,
+          rating: 5,
+          pages: resourceMeta.pages,
+          format,
+          author,
+          uploadName: appForms.state.newNote.uploadName,
+          uploadDataUrl: appForms.state.newNote.uploadDataUrl,
+          uploadSize: appForms.state.newNote.uploadSize,
+          sellerId: "owner",
+          sellerName: appForms.DEVELOPER_STORE_NAME
+        }, ...appForms.state.allNotes];
+
+        appForms.state.newNote = appForms.blankNote();
+        appForms.writeStore().then((synced) => {
+          if (!synced) {
+            window.alert("This resource was saved only on this device. Check Firebase Realtime Database and Storage rules so it appears on other devices.");
+          }
+        });
+        appForms.renderMain();
+        return;
+      }
+
+      if (requestForm) {
+        event.preventDefault();
+        window.alert("Selling access is restricted to developers only.");
+        return;
+      }
+
+      if (loginForm) {
+        event.preventDefault();
+        window.alert("Developer dashboard access is private.");
+        return;
+      }
+    });
+
+    appForms.render();
+    if (typeof appForms.syncFromFirebase === "function") {
+      appForms.syncFromFirebase();
+    }
+    if (typeof appForms.startFirebaseSync === "function") {
+      appForms.startFirebaseSync();
+    }
+  </script>
+</body>
+</html>
+<!-- Legacy JSX source retained below because the original file was saved with an .html extension.
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  BookOpen, 
+  Download, 
+  CheckCircle, 
+  QrCode, 
+  FileText, 
+  ChevronRight, 
+  Search, 
+  ShieldCheck, 
+  Star,
+  ArrowLeft,
+  Printer,
+  ShoppingBag,
+  CreditCard,
+  Plus,
+  Settings,
+  Trash2,
+  Lock,
+  Eye,
+  LayoutDashboard,
+  X,
+  Bell,
+  Sparkles
+} from 'lucide-react';
+
+const BRANCHES = [
+  { id: 'cse', name: 'Computer Science', icon: 'ðŸ’»', color: 'bg-blue-100 text-blue-600' },
+  { id: 'mech', name: 'Mechanical', icon: 'âš™ï¸', color: 'bg-orange-100 text-orange-600' },
+  { id: 'elec', name: 'Electrical', icon: 'âš¡', color: 'bg-yellow-100 text-yellow-600' },
+  { id: 'civil', name: 'Civil', icon: 'ðŸ—ï¸', color: 'bg-green-100 text-green-600' },
+  { id: 'ece', name: 'Electronics', icon: 'ðŸ“Ÿ', color: 'bg-purple-100 text-purple-600' },
+];
+
+const INITIAL_NOTES = [
+  { id: 1, branch: 'cse', title: 'Data Structures & Algorithms', price: 199, rating: 4.8, pages: 120, format: 'PDF', author: 'Dr. Smith' },
+  { id: 2, branch: 'cse', title: 'Operating Systems Pro', price: 149, rating: 4.5, pages: 85, format: 'E-Book', author: 'Prof. J. Doe' },
+  { id: 3, branch: 'mech', title: 'Thermodynamics Masterclass', price: 299, rating: 4.9, pages: 200, format: 'PDF', author: 'Engr. Robert' },
+];
+
+export default function App() {
+  const [view, setView] = useState('home'); // home, branch, checkout, receipt, admin
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showNotification, setShowNotification] = useState(true);
+  const [allNotes, setAllNotes] = useState(INITIAL_NOTES);
+  const [selectedBranch, setSelectedBranch] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [receiptData, setReceiptData] = useState(null);
+  
+  // Admin Form State
+  const [newNote, setNewNote] = useState({ title: '', branch: 'cse', price: '', author: '', pages: '', format: 'PDF' });
+
+  const filteredNotes = useMemo(() => {
+    let notes = allNotes;
+    if (selectedBranch) {
+      notes = notes.filter(n => n.branch === selectedBranch.id);
+    }
+    if (searchQuery) {
+      notes = notes.filter(n => n.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+    return notes;
+  }, [selectedBranch, searchQuery, allNotes]);
+
+  const handleBuy = (item) => {
+    setSelectedItem(item);
+    setView('checkout');
+  };
+
+  const handleConfirmPayment = () => {
+    const transactionId = 'TXN' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const date = new Date().toLocaleString();
+    setReceiptData({
+      ...selectedItem,
+      transactionId,
+      date,
+    });
+    setView('receipt');
+  };
+
+  const handleAddNote = (e) => {
+    e.preventDefault();
+    const note = {
+      ...newNote,
+      id: Date.now(),
+      rating: 5.0,
+      price: Number(newNote.price),
+      pages: Number(newNote.pages)
+    };
+    setAllNotes([note, ...allNotes]);
+    setNewNote({ title: '', branch: 'cse', price: '', author: '', pages: '', format: 'PDF' });
+  };
+
+  const deleteNote = (id) => {
+    setAllNotes(allNotes.filter(n => n.id !== id));
+  };
+
+  const reset = () => {
+    setView('home');
+    setSelectedBranch(null);
+    setSelectedItem(null);
+    setReceiptData(null);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+      {/* Notification Bar */}
+      {showNotification && (
+        <div className="bg-indigo-600 text-white relative overflow-hidden animate-in fade-in slide-in-from-top duration-500">
+          <div className="max-w-7xl mx-auto px-4 py-2.5 sm:px-6 lg:px-8 flex items-center justify-center gap-4 text-sm font-medium text-center">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-indigo-200" />
+              <span>CampusSeller by CampusLink: Special Semester Launch Offer! Use code: <span className="bg-white/20 px-2 py-0.5 rounded-md font-bold">LINK20</span></span>
+            </div>
+            <button 
+              onClick={() => setShowNotification(false)}
+              className="absolute right-4 p-1 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-pulse-slow"></div>
+        </div>
+      )}
+
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div 
+              className="flex items-center gap-2 cursor-pointer group"
+              onClick={reset}
+            >
+              <div className="bg-indigo-600 p-2 rounded-lg group-hover:rotate-6 transition-transform">
+                <BookOpen className="text-white w-5 h-5" />
+              </div>
+              <div className="flex flex-col -space-y-1">
+                <span className="font-bold text-xl tracking-tight text-slate-800">Campus<span className="text-indigo-600">Seller</span></span>
+                <span className="text-[10px] font-medium text-slate-400 uppercase tracking-widest">by CampusLink</span>
+              </div>
+            </div>
+            
+            {isAdmin && (
+              <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-1 rounded-full border border-amber-200 flex items-center gap-1">
+                <ShieldCheck className="w-3 h-3" /> Seller Mode
+              </span>
+            )}
+          </div>
+          
+          <div className="hidden md:flex items-center bg-slate-100 rounded-full px-4 py-1.5 border border-slate-200 focus-within:ring-2 ring-indigo-500/20 transition-all">
+            <Search className="w-4 h-4 text-slate-400 mr-2" />
+            <input 
+              type="text" 
+              placeholder="Search resources..." 
+              className="bg-transparent border-none focus:outline-none text-sm w-64"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => {
+                if(!isAdmin) {
+                  const pass = prompt("Enter Seller Password:");
+                  if(pass === "admin123") setIsAdmin(true);
+                } else {
+                  setIsAdmin(false);
+                  setView('home');
+                }
+              }}
+              className={`flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-xl transition-all ${isAdmin ? 'bg-amber-100 text-amber-700' : 'text-slate-600 hover:bg-slate-100'}`}
+            >
+              {isAdmin ? <LayoutDashboard className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+              <span>{isAdmin ? 'Dashboard' : 'Seller Login'}</span>
+            </button>
+            
+            {isAdmin && (
+              <button 
+                onClick={() => setView('admin')}
+                className="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-lg"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Item</span>
+              </button>
+            )}
+            
+            {!isAdmin && (
+              <button className="bg-slate-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4" />
+                <span>Cart</span>
+              </button>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {view === 'admin' && isAdmin && (
+          <div className="max-w-4xl mx-auto animate-in slide-in-from-bottom-4 duration-300">
+            <div className="flex items-center gap-4 mb-8">
+               <button onClick={() => setView('home')} className="p-2 hover:bg-white rounded-full border border-slate-200">
+                 <ArrowLeft className="w-5 h-5" />
+               </button>
+               <h2 className="text-3xl font-bold">Seller Dashboard</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="md:col-span-1">
+                <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-24">
+                  <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
+                    <Plus className="w-5 h-5 text-indigo-600" /> List New Resource
+                  </h3>
+                  <form onSubmit={handleAddNote} className="space-y-4">
+                    <div>
+                      <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Title</label>
+                      <input 
+                        required 
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 ring-indigo-500/20 outline-none" 
+                        value={newNote.title} 
+                        onChange={e => setNewNote({...newNote, title: e.target.value})} 
+                        placeholder="e.g. Engineering Mathematics"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Branch</label>
+                        <select 
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-2 outline-none"
+                          value={newNote.branch}
+                          onChange={e => setNewNote({...newNote, branch: e.target.value})}
+                        >
+                          {BRANCHES.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Price (â‚¹)</label>
+                        <input 
+                          required type="number" 
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 outline-none" 
+                          value={newNote.price} 
+                          onChange={e => setNewNote({...newNote, price: e.target.value})} 
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Author</label>
+                      <input 
+                        required 
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 outline-none" 
+                        value={newNote.author} 
+                        onChange={e => setNewNote({...newNote, author: e.target.value})} 
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Pages</label>
+                        <input 
+                          required type="number" 
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 outline-none" 
+                          value={newNote.pages} 
+                          onChange={e => setNewNote({...newNote, pages: e.target.value})} 
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Format</label>
+                        <select 
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2 py-2 outline-none"
+                          value={newNote.format}
+                          onChange={e => setNewNote({...newNote, format: e.target.value})}
+                        >
+                          <option>PDF</option>
+                          <option>E-Book</option>
+                          <option>Handwritten</option>
+                        </select>
+                      </div>
+                    </div>
+                    <button className="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all">
+                      Add to Store
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <div className="md:col-span-2 space-y-4">
+                <h3 className="font-bold text-lg flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-slate-400" /> Seller Inventory ({allNotes.length})
+                </h3>
+                {allNotes.map(note => (
+                  <div key={note.id} className="bg-white p-4 rounded-2xl border border-slate-200 flex items-center justify-between group">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-slate-100 p-3 rounded-xl">
+                        <FileText className="w-6 h-6 text-indigo-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold">{note.title}</h4>
+                        <p className="text-xs text-slate-500">{note.author} â€¢ {note.branch.toUpperCase()} â€¢ â‚¹{note.price}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => deleteNote(note.id)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {view === 'home' && (
+          <div className="space-y-12">
+            {/* Hero Section */}
+            <section className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-indigo-900 via-indigo-800 to-slate-900 text-white p-8 md:p-16">
+              <div className="relative z-10 max-w-2xl">
+                <div className="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-white/10 backdrop-blur-sm">
+                   <Sparkles className="w-3 h-3 text-indigo-300" /> Powered by CampusLink
+                </div>
+                <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+                  Campus<span className="text-indigo-300">Seller</span> Marketplace
+                </h1>
+                <p className="text-indigo-100 text-lg mb-8 opacity-90 leading-relaxed">
+                  The official platform for premium engineering study materials, curated by <span className="text-white font-semibold">CampusLink</span>. 
+                  Get instant access to verified topper resources today.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <button className="bg-white text-indigo-900 px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all">
+                    Browse All Resources
+                  </button>
+                  <div className="flex items-center gap-2 text-indigo-200">
+                    <ShieldCheck className="w-5 h-5" />
+                    <span className="text-sm">Verified by CampusLink</span>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute right-0 bottom-0 opacity-10 translate-y-10 translate-x-10 pointer-events-none">
+                <BookOpen className="w-96 h-96" />
+              </div>
+            </section>
+
+            {/* Branches Selection */}
+            <section>
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <span className="w-2 h-8 bg-indigo-600 rounded-full"></span>
+                Select Your Branch
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {BRANCHES.map((branch) => (
+                  <div 
+                    key={branch.id}
+                    onClick={() => { setSelectedBranch(branch); setView('branch'); }}
+                    className="bg-white border border-slate-200 p-6 rounded-2xl cursor-pointer hover:border-indigo-400 hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col items-center text-center gap-4"
+                  >
+                    <div className={`text-3xl p-4 rounded-xl ${branch.color}`}>
+                      {branch.icon}
+                    </div>
+                    <span className="font-semibold text-slate-800">{branch.name}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section>
+              <div className="flex justify-between items-end mb-6">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <span className="w-2 h-8 bg-indigo-600 rounded-full"></span>
+                  Trending Now
+                </h2>
+                <button className="text-indigo-600 font-medium hover:underline flex items-center gap-1">
+                  View All <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {allNotes.slice(0, 4).map((note) => (
+                  <NoteCard key={note.id} note={note} onBuy={() => handleBuy(note)} />
+                ))}
+              </div>
+            </section>
+          </div>
+        )}
+
+        {view === 'branch' && (
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => setView('home')}
+                className="p-2 hover:bg-white rounded-full transition-colors border border-slate-200"
+              >
+                <ArrowLeft className="w-5 h-5 text-slate-600" />
+              </button>
+              <div>
+                <h2 className="text-3xl font-bold text-slate-800">{selectedBranch?.name} Engineering</h2>
+                <p className="text-slate-500">Official resources via CampusLink</p>
+              </div>
+            </div>
+
+            {filteredNotes.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {filteredNotes.map((note) => (
+                  <NoteCard key={note.id} note={note} onBuy={() => handleBuy(note)} />
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white border-2 border-dashed border-slate-200 rounded-3xl p-16 text-center">
+                <div className="bg-slate-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-slate-400" />
+                </div>
+                <h3 className="text-xl font-semibold text-slate-800 mb-2">No notes found</h3>
+                <p className="text-slate-500">Try adjusting your search or check back soon.</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {view === 'checkout' && selectedItem && (
+          <div className="max-w-4xl mx-auto animate-in zoom-in-95 duration-300">
+            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200 flex flex-col md:flex-row">
+              <div className="p-8 md:w-1/2 border-b md:border-b-0 md:border-r border-slate-100">
+                <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
+                <div className="flex gap-4 p-4 bg-slate-50 rounded-2xl mb-8">
+                  <div className="bg-indigo-600 p-3 rounded-lg flex items-center justify-center h-fit">
+                    <FileText className="text-white w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg">{selectedItem.title}</h3>
+                    <p className="text-slate-500 text-sm">{selectedItem.author} â€¢ {selectedItem.pages} Pages</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-3 mb-8">
+                  <div className="flex justify-between text-slate-600">
+                    <span>Base Price</span>
+                    <span>â‚¹{selectedItem.price}</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600">
+                    <span>Processing Fee</span>
+                    <span className="text-green-600">FREE</span>
+                  </div>
+                  <div className="h-px bg-slate-200 my-2"></div>
+                  <div className="flex justify-between font-bold text-xl text-slate-800">
+                    <span>Total Amount</span>
+                    <span>â‚¹{selectedItem.price}</span>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-amber-50 rounded-xl border border-amber-100 text-amber-800 text-sm">
+                  <p className="font-semibold flex items-center gap-2 mb-1">
+                    <ShieldCheck className="w-4 h-4" /> Secure Payment
+                  </p>
+                  <p>Payment processed by CampusLink Secure Core.</p>
+                </div>
+              </div>
+
+              <div className="p-8 md:w-1/2 flex flex-col items-center justify-center bg-slate-50">
+                <div className="text-center mb-6">
+                  <h3 className="text-lg font-bold mb-1">Scan to Pay</h3>
+                  <p className="text-slate-500 text-sm">Pay directly to CampusLink Sellers</p>
+                </div>
+                
+                <div className="relative p-6 bg-white rounded-2xl shadow-sm border border-slate-200 mb-6 group">
+                  <div className="w-48 h-48 bg-slate-100 flex items-center justify-center relative overflow-hidden">
+                    <QrCode className="w-full h-full text-slate-800 p-2" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-400/20 to-transparent h-4 animate-scan pointer-events-none"></div>
+                  </div>
+                  <div className="absolute -top-3 -right-3 bg-indigo-600 text-white p-2 rounded-full shadow-lg">
+                    <CreditCard className="w-4 h-4" />
+                  </div>
+                </div>
+
+                <div className="w-full space-y-4">
+                  <button 
+                    onClick={handleConfirmPayment}
+                    className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold text-lg hover:bg-indigo-700 transition-all transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
+                  >
+                    I've Completed the Payment
+                  </button>
+                  <button 
+                    onClick={() => setView('home')}
+                    className="w-full bg-white text-slate-500 py-3 rounded-2xl font-medium border border-slate-200 hover:bg-slate-50 transition-all"
+                  >
+                    Cancel Transaction
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {view === 'receipt' && receiptData && (
+          <div className="max-w-2xl mx-auto py-8">
+            <div className="bg-white shadow-2xl rounded-3xl overflow-hidden border border-slate-200 animate-in zoom-in-95 duration-500 receipt-container">
+              <div className="bg-indigo-600 p-8 text-white text-center relative">
+                <div className="absolute top-4 right-4 bg-white/20 p-2 rounded-full cursor-pointer hover:bg-white/30" onClick={() => window.print()}>
+                  <Printer className="w-5 h-5" />
+                </div>
+                <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl">
+                  <CheckCircle className="w-10 h-10 text-green-500" />
+                </div>
+                <h2 className="text-2xl font-bold mb-1">Payment Successful!</h2>
+                <p className="text-indigo-100">Verified by CampusLink</p>
+              </div>
+
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-8 pb-8 border-b border-slate-100">
+                  <div>
+                    <h3 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Transaction ID</h3>
+                    <p className="text-slate-800 font-mono text-sm">{receiptData.transactionId}</p>
+                    <p className="text-slate-500 text-sm mt-1">{receiptData.date}</p>
+                  </div>
+                  <div className="text-right">
+                    <h3 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Amount Paid</h3>
+                    <p className="text-3xl font-extrabold text-slate-800">â‚¹{receiptData.price}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  <h3 className="font-bold text-slate-800">Resource Details</h3>
+                  <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-indigo-100 p-2 rounded-lg">
+                        <FileText className="w-5 h-5 text-indigo-600" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-slate-800">{receiptData.title}</p>
+                        <p className="text-slate-500 text-sm">{receiptData.format} â€¢ {receiptData.pages} Pages</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-green-50 p-6 rounded-2xl border border-green-100 mb-8">
+                  <h4 className="font-bold text-green-900 mb-2 flex items-center gap-2">
+                    <Download className="w-5 h-5" /> Ready for Download
+                  </h4>
+                  <p className="text-green-800 text-sm mb-4">Your purchase is secured and managed by CampusLink Cloud.</p>
+                  <button className="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition-colors shadow-lg shadow-green-200">
+                    Download File
+                  </button>
+                </div>
+
+                <div className="text-center">
+                  <button 
+                    onClick={reset}
+                    className="text-indigo-600 font-semibold hover:underline"
+                  >
+                    Return to Store
+                  </button>
+                </div>
+              </div>
+              <div className="h-4 w-full bg-receipt-pattern opacity-10"></div>
+            </div>
+          </div>
+        )}
+      </main>
+
+      <footer className="bg-slate-900 text-white mt-16 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <div className="bg-indigo-600 p-2 rounded-lg">
+              <BookOpen className="text-white w-5 h-5" />
+            </div>
+            <div className="flex flex-col items-start -space-y-1">
+              <span className="font-bold text-xl">CampusSeller</span>
+              <span className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">by CampusLink</span>
+            </div>
+          </div>
+          <p className="text-slate-400 max-w-sm mx-auto mb-8">
+            The exclusive platform for premium engineering study materials and campus resources, powered by <span className="text-white">CampusLink</span>.
+          </p>
+          <div className="border-t border-slate-800 pt-8 text-slate-500 text-xs uppercase tracking-widest font-bold">
+            Â© 2024 CampusSeller by CampusLink â€¢ support@campuslink.com
+          </div>
+        </div>
+      </footer>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes scan {
+          0%, 100% { top: 0; }
+          50% { top: 100%; }
+        }
+        @keyframes pulse-slow {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(100%); }
+        }
+        .animate-scan {
+          animation: scan 3s ease-in-out infinite;
+        }
+        .animate-pulse-slow {
+          animation: pulse-slow 4s ease-in-out infinite;
+        }
+        .bg-receipt-pattern {
+          background-image: radial-gradient(circle at 2px 2px, black 1px, transparent 0);
+          background-size: 8px 8px;
+        }
+        @media print {
+          nav, footer, button:not(.bg-green-600) { display: none !important; }
+          .receipt-container { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+        }
+      `}} />
+    </div>
+  );
+}
+legacy source continues below
+
+function NoteCard({ note, onBuy }) {
+  return (
+    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-xl transition-all group">
+      <div className="h-40 bg-slate-50 flex items-center justify-center relative overflow-hidden">
+        <FileText className="w-16 h-16 text-slate-200 group-hover:scale-110 group-hover:text-indigo-100 transition-all duration-500" />
+        <div className="absolute top-3 right-3 bg-white/90 px-2 py-1 rounded-md text-[10px] font-bold text-slate-600 border border-slate-100">
+          {note.format}
+        </div>
+      </div>
+      <div className="p-5">
+        <h3 className="font-bold text-slate-800 mb-1 line-clamp-1">{note.title}</h3>
+        <p className="text-slate-400 text-xs mb-4">By {note.author} â€¢ {note.pages} Pages</p>
+        <div className="flex items-center justify-between">
+          <span className="text-xl font-extrabold text-slate-900">â‚¹{note.price}</span>
+          <button 
+            onClick={onBuy}
+            className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-slate-900 transition-colors shadow-sm"
+          >
+            Buy
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+-->
